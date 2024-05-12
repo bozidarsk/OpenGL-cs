@@ -7,60 +7,50 @@ namespace OpenGL;
 [StructLayout(LayoutKind.Sequential)]
 public struct Color 
 {
-	public byte r, g, b, a;
+	public float r, g, b, a;
 
-	public override string ToString() => $"#{r:x2}{g:x2}{b:x2}{a:x2}";
+	public static readonly Color Black = new Color(0f, 0f, 0f, 0f);
+	public static readonly Color White = new Color(1f, 1f, 1f, 1f);
 
-	public unsafe Color(string format) 
+	public static Color operator * (Color a, float x) => new Color(a.r * x, a.g * x, a.b * x, a.a * x);
+	public static Color operator / (Color a, float x) => new Color(a.r / x, a.g / x, a.b / x, a.a / x);
+	public static Color operator * (float x, Color a) => new Color(a.r * x, a.g * x, a.b * x, a.a * x);
+	public static Color operator / (float x, Color a) => new Color(a.r / x, a.g / x, a.b / x, a.a / x);
+	public static Color operator + (Color a, Color b) => new Color(a.r + b.r, a.g + b.g, a.b + b.b, a.a + b.a);
+	public static Color operator - (Color a, Color b) => new Color(a.r - b.r, a.g - b.g, a.b - b.b, a.a - b.a);
+
+	public static explicit operator uint(Color color) 
 	{
-		if (format == null)
-			throw new ArgumentNullException();
+		uint result = 0;
 
-		int index = 0;
+		result <<= 8;
+		result |= (uint)(color.r * 255f) & 0xff;
 
-		if (format.StartsWith("#"))
-			index = 1;
+		result <<= 8;
+		result |= (uint)(color.g * 255f) & 0xff;
 
-		if (format.StartsWith("0x"))
-			index = 2;
+		result <<= 8;
+		result |= (uint)(color.b * 255f) & 0xff;
 
-		if (format.Length - index != 8)
-			format += "ff";
-        
-        if (format.Length - index != 8)
-			throw new FormatException(format);
+		result <<= 8;
+		result |= (uint)(color.a * 255f) & 0xff;
 
-		uint color = uint.Parse(format.Remove(0, index), System.Globalization.NumberStyles.HexNumber);
-
-		byte* channels = (byte*)Unsafe.AsPointer<Color>(ref this);
-        channels[3] = (byte)(color >> 0 * 8);
-        channels[2] = (byte)(color >> 1 * 8);
-        channels[1] = (byte)(color >> 2 * 8);
-        channels[0] = (byte)(color >> 3 * 8);
+		return result;
 	}
 
-	public unsafe Color(uint color) 
+	public static explicit operator Color(uint color) 
 	{
-		byte* channels = (byte*)Unsafe.AsPointer<Color>(ref this);
-        channels[3] = (byte)(color >> 0 * 8);
-        channels[2] = (byte)(color >> 1 * 8);
-        channels[1] = (byte)(color >> 2 * 8);
-        channels[0] = (byte)(color >> 3 * 8);
+		Color result = new();
+
+		result.r = (float)((color >> 3 * 8) & 0xff) / 255f;
+		result.g = (float)((color >> 2 * 8) & 0xff) / 255f;
+		result.b = (float)((color >> 1 * 8) & 0xff) / 255f;
+		result.a = (float)((color >> 0 * 8) & 0xff) / 255f;
+
+		return result;
 	}
 
-	public Color(float r, float g, float b, float a = 1f) 
-	{
-		this.r = (byte)(r * 255f);
-		this.g = (byte)(g * 255f);
-		this.b = (byte)(b * 255f);
-		this.a = (byte)(a * 255f);
-	}
+	public override string ToString() => $"({r}, {g}, {b}, {a})";
 
-	public Color(byte r, byte g, byte b, byte a = 0xff) 
-	{
-		this.r = r;
-		this.g = g;
-		this.b = b;
-		this.a = a;
-	}
+	public Color(float r, float g, float b, float a = 1f) => (this.r, this.g, this.b, this.a) = (r, g, b, a);
 }
