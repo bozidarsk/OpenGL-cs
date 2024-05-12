@@ -1,4 +1,4 @@
-namespace OpenGL;
+namespace OpenGL.GLFW;
 
 public enum InputMode : int
 {

@@ -1,4 +1,4 @@
-namespace OpenGL;
+namespace OpenGL.GLFW;
 
 [System.Flags]
 public enum KeyModifier : int

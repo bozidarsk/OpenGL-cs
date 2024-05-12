@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace OpenGL;
+namespace OpenGL.GLFW;
 
 [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 internal delegate void DropCallback(nint window, int count, nint paths);

@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace OpenGL;
+namespace OpenGL.GLFW;
 
 [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 internal delegate void KeyCallback(nint window, int scancode, KeyState state, KeyModifier modifiers);

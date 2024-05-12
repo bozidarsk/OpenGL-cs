@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace OpenGL;
+namespace OpenGL.GLFW;
 
 [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 internal delegate void MouseButtonCallback(nint window, KeyCode button, KeyState state, KeyModifier modifiers);
