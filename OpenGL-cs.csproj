@@ -13,4 +13,8 @@
     <DefineConstants Condition="$([MSBuild]::IsOSPlatform('OSX'))">$(DefineConstants);OSX</DefineConstants>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="System.IO.Packaging" Version="8.0.0" />
+  </ItemGroup>
+
 </Project>
