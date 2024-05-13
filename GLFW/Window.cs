@@ -153,6 +153,7 @@ public sealed class Window : IDisposable
 		// glfwSetDropCallback(this, (nint window, int count, nint paths) => OnDrop?.Invoke(window, new DropEventArgs(new byte[count].Select((x, i) => new string((sbyte*)GLFW.PointerIndexer<nint>(paths, i))).ToArray())));
 	}
 
+	/*
 	public event KeyEventHandler? OnKey;
 	public event CharEventHandler? OnChar;
 	public event MouseButtonEventHandler? OnMouseButton;
@@ -160,6 +161,7 @@ public sealed class Window : IDisposable
 	public event CursorEnterEventHandler? OnCursorEnter;
 	public event ScrollEventHandler? OnScroll;
 	public event DropEventHandler? OnDrop;
+	*/
 
 	// [DllImport(GLFW_LIB)] private static extern void glfwDefaultWindowHints();
 	// [DllImport(GLFW_LIB)] private static extern void glfwWindowHint(int hint, int value);
