@@ -12,17 +12,14 @@ public sealed class Mesh
 	private Buffer vertices;
 	private Buffer indices;
 
+	public int VertexCount => vertices.Count;
+	public int IndexCount => indices.Count;
+
 	public unsafe ReadOnlySpan<Vertex> Vertices => new ReadOnlySpan<Vertex>((void*)vertices.Data, vertices.Count);
 	public unsafe ReadOnlySpan<uint> Indices => new ReadOnlySpan<uint>((void*)indices.Data, indices.Count);
 
 	public void BindVertexBuffer() => vertices.Bind();
 	public void BindIndexBuffer() => indices.Bind();
-
-	public void Render() 
-	{
-		BindIndexBuffer();
-		glDrawElements(GL_TRIANGLES, indices.Count, GL_UNSIGNED_INT, nint.Zero);
-	}
 
 	public Mesh(Vertex[] vertices, uint[] indices) : this(new Span<Vertex>(vertices), new Span<uint>(indices)) {}
 

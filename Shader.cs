@@ -27,7 +27,7 @@ public sealed class Shader : IDisposable
 
 		void main() 
 		{
-			gl_Position = vec4(v.position.xyz, 1.0);
+			gl_Position = vec4(v.position.xyz, 1);
 		}
 	";
 	private const string defaultFragment = @"
@@ -37,7 +37,7 @@ public sealed class Shader : IDisposable
 
 		void main() 
 		{
-			color = vec4(0.0, 0.5, 0.5, 1.0);
+			color = vec4(0.8, 0.5, 0.5, 1);
 		}
 	";
 
@@ -76,7 +76,7 @@ public sealed class Shader : IDisposable
 		id = glCreateShader((uint)type);
 
 		int codeLength = code.Length;
-		glShaderSource(this, 1, ref code, in codeLength);
+		glShaderSource(this, 1, ref code, ref codeLength);
 		glCompileShader(this);
 
 		glGetShaderiv(this, GL_COMPILE_STATUS, out int result);
@@ -85,7 +85,7 @@ public sealed class Shader : IDisposable
 			glGetShaderiv(this, GL_INFO_LOG_LENGTH, out int length);
 
 			sbyte* message = stackalloc sbyte[length];
-			glGetShaderInfoLog(this, length, in length, ref Unsafe.AsRef<sbyte>(message));
+			glGetShaderInfoLog(this, length, out length, ref Unsafe.AsRef<sbyte>(message));
 
 			Console.WriteLine($"Shader compilation error in '{fileName}' {new string(message)}");
 		}

@@ -901,7 +901,7 @@ public static unsafe class Methods
 	public delegate void glGetShaderivDelegate(GLuint shader, GLenum pname, out GLint parameters);
 
 	public static readonly glGetShaderInfoLogDelegate glGetShaderInfoLog = Marshal.GetDelegateForFunctionPointer<glGetShaderInfoLogDelegate>(GetMethodAddress("glGetShaderInfoLog"));
-	public delegate void glGetShaderInfoLogDelegate(GLuint shader, GLsizei maxLength, in GLsizei length, ref sbyte infoLog);
+	public delegate void glGetShaderInfoLogDelegate(GLuint shader, GLsizei maxLength, out GLsizei length, ref sbyte infoLog);
 
 	public static readonly glGetShaderPrecisionFormatDelegate glGetShaderPrecisionFormat = Marshal.GetDelegateForFunctionPointer<glGetShaderPrecisionFormatDelegate>(GetMethodAddress("glGetShaderPrecisionFormat"));
 	public delegate void glGetShaderPrecisionFormatDelegate(GLenum shaderType, GLenum precisionType, GLint* range, GLint* precision);
@@ -1015,7 +1015,7 @@ public static unsafe class Methods
 	public delegate void glGetUniformIndicesDelegate(GLuint program, GLsizei uniformCount, sbyte** uniformNames, GLuint* uniformIndices);
 
 	public static readonly glGetUniformLocationDelegate glGetUniformLocation = Marshal.GetDelegateForFunctionPointer<glGetUniformLocationDelegate>(GetMethodAddress("glGetUniformLocation"));
-	public delegate GLint glGetUniformLocationDelegate(GLuint program, sbyte* name);
+	public delegate GLint glGetUniformLocationDelegate(GLuint program, string name);
 
 	public static readonly glGetUniformSubroutineuivDelegate glGetUniformSubroutineuiv = Marshal.GetDelegateForFunctionPointer<glGetUniformSubroutineuivDelegate>(GetMethodAddress("glGetUniformSubroutineuiv"));
 	public delegate void glGetUniformSubroutineuivDelegate(GLenum shadertype, GLint location, GLuint* values);
@@ -1396,7 +1396,7 @@ public static unsafe class Methods
 	public delegate void glShaderBinaryDelegate(GLsizei count, GLuint* shaders, GLenum binaryFormat, nint binary, GLsizei length);
 
 	public static readonly glShaderSourceDelegate glShaderSource = Marshal.GetDelegateForFunctionPointer<glShaderSourceDelegate>(GetMethodAddress("glShaderSource"));
-	public delegate void glShaderSourceDelegate(GLuint shader, GLsizei count, ref string str, in GLint length);
+	public delegate void glShaderSourceDelegate(GLuint shader, GLsizei count, ref string str, ref GLint length);
 
 	public static readonly glShaderStorageBlockBindingDelegate glShaderStorageBlockBinding = Marshal.GetDelegateForFunctionPointer<glShaderStorageBlockBindingDelegate>(GetMethodAddress("glShaderStorageBlockBinding"));
 	public delegate void glShaderStorageBlockBindingDelegate(GLuint program, GLuint storageBlockIndex, GLuint storageBlockBinding);
@@ -1582,67 +1582,67 @@ public static unsafe class Methods
 	public delegate void glUniform4uiDelegate(GLint location, GLuint v0, GLuint v1, GLuint v2, GLuint v3);
 
 	public static readonly glUniform1fvDelegate glUniform1fv = Marshal.GetDelegateForFunctionPointer<glUniform1fvDelegate>(GetMethodAddress("glUniform1fv"));
-	public delegate void glUniform1fvDelegate(GLint location, GLsizei count, GLfloat* value);
+	public delegate void glUniform1fvDelegate(GLint location, GLsizei count, ref GLfloat value);
 
 	public static readonly glUniform2fvDelegate glUniform2fv = Marshal.GetDelegateForFunctionPointer<glUniform2fvDelegate>(GetMethodAddress("glUniform2fv"));
-	public delegate void glUniform2fvDelegate(GLint location, GLsizei count, GLfloat* value);
+	public delegate void glUniform2fvDelegate(GLint location, GLsizei count, ref GLfloat value);
 
 	public static readonly glUniform3fvDelegate glUniform3fv = Marshal.GetDelegateForFunctionPointer<glUniform3fvDelegate>(GetMethodAddress("glUniform3fv"));
-	public delegate void glUniform3fvDelegate(GLint location, GLsizei count, GLfloat* value);
+	public delegate void glUniform3fvDelegate(GLint location, GLsizei count, ref GLfloat value);
 
 	public static readonly glUniform4fvDelegate glUniform4fv = Marshal.GetDelegateForFunctionPointer<glUniform4fvDelegate>(GetMethodAddress("glUniform4fv"));
-	public delegate void glUniform4fvDelegate(GLint location, GLsizei count, GLfloat* value);
+	public delegate void glUniform4fvDelegate(GLint location, GLsizei count, ref GLfloat value);
 
 	public static readonly glUniform1ivDelegate glUniform1iv = Marshal.GetDelegateForFunctionPointer<glUniform1ivDelegate>(GetMethodAddress("glUniform1iv"));
-	public delegate void glUniform1ivDelegate(GLint location, GLsizei count, GLint* value);
+	public delegate void glUniform1ivDelegate(GLint location, GLsizei count, ref GLint value);
 
 	public static readonly glUniform2ivDelegate glUniform2iv = Marshal.GetDelegateForFunctionPointer<glUniform2ivDelegate>(GetMethodAddress("glUniform2iv"));
-	public delegate void glUniform2ivDelegate(GLint location, GLsizei count, GLint* value);
+	public delegate void glUniform2ivDelegate(GLint location, GLsizei count, ref GLint value);
 
 	public static readonly glUniform3ivDelegate glUniform3iv = Marshal.GetDelegateForFunctionPointer<glUniform3ivDelegate>(GetMethodAddress("glUniform3iv"));
-	public delegate void glUniform3ivDelegate(GLint location, GLsizei count, GLint* value);
+	public delegate void glUniform3ivDelegate(GLint location, GLsizei count, ref GLint value);
 
 	public static readonly glUniform4ivDelegate glUniform4iv = Marshal.GetDelegateForFunctionPointer<glUniform4ivDelegate>(GetMethodAddress("glUniform4iv"));
-	public delegate void glUniform4ivDelegate(GLint location, GLsizei count, GLint* value);
+	public delegate void glUniform4ivDelegate(GLint location, GLsizei count, ref GLint value);
 
 	public static readonly glUniform1uivDelegate glUniform1uiv = Marshal.GetDelegateForFunctionPointer<glUniform1uivDelegate>(GetMethodAddress("glUniform1uiv"));
-	public delegate void glUniform1uivDelegate(GLint location, GLsizei count, GLuint* value);
+	public delegate void glUniform1uivDelegate(GLint location, GLsizei count, ref GLuint value);
 
 	public static readonly glUniform2uivDelegate glUniform2uiv = Marshal.GetDelegateForFunctionPointer<glUniform2uivDelegate>(GetMethodAddress("glUniform2uiv"));
-	public delegate void glUniform2uivDelegate(GLint location, GLsizei count, GLuint* value);
+	public delegate void glUniform2uivDelegate(GLint location, GLsizei count, ref GLuint value);
 
 	public static readonly glUniform3uivDelegate glUniform3uiv = Marshal.GetDelegateForFunctionPointer<glUniform3uivDelegate>(GetMethodAddress("glUniform3uiv"));
-	public delegate void glUniform3uivDelegate(GLint location, GLsizei count, GLuint* value);
+	public delegate void glUniform3uivDelegate(GLint location, GLsizei count, ref GLuint value);
 
 	public static readonly glUniform4uivDelegate glUniform4uiv = Marshal.GetDelegateForFunctionPointer<glUniform4uivDelegate>(GetMethodAddress("glUniform4uiv"));
-	public delegate void glUniform4uivDelegate(GLint location, GLsizei count, GLuint* value);
+	public delegate void glUniform4uivDelegate(GLint location, GLsizei count, ref GLuint value);
 
 	public static readonly glUniformMatrix2fvDelegate glUniformMatrix2fv = Marshal.GetDelegateForFunctionPointer<glUniformMatrix2fvDelegate>(GetMethodAddress("glUniformMatrix2fv"));
-	public delegate void glUniformMatrix2fvDelegate(GLint location, GLsizei count, GLboolean transpose, GLfloat* value);
+	public delegate void glUniformMatrix2fvDelegate(GLint location, GLsizei count, GLboolean transpose, ref GLfloat value);
 
 	public static readonly glUniformMatrix3fvDelegate glUniformMatrix3fv = Marshal.GetDelegateForFunctionPointer<glUniformMatrix3fvDelegate>(GetMethodAddress("glUniformMatrix3fv"));
-	public delegate void glUniformMatrix3fvDelegate(GLint location, GLsizei count, GLboolean transpose, GLfloat* value);
+	public delegate void glUniformMatrix3fvDelegate(GLint location, GLsizei count, GLboolean transpose, ref GLfloat value);
 
 	public static readonly glUniformMatrix4fvDelegate glUniformMatrix4fv = Marshal.GetDelegateForFunctionPointer<glUniformMatrix4fvDelegate>(GetMethodAddress("glUniformMatrix4fv"));
-	public delegate void glUniformMatrix4fvDelegate(GLint location, GLsizei count, GLboolean transpose, GLfloat* value);
+	public delegate void glUniformMatrix4fvDelegate(GLint location, GLsizei count, GLboolean transpose, ref GLfloat value);
 
 	public static readonly glUniformMatrix2x3fvDelegate glUniformMatrix2x3fv = Marshal.GetDelegateForFunctionPointer<glUniformMatrix2x3fvDelegate>(GetMethodAddress("glUniformMatrix2x3fv"));
-	public delegate void glUniformMatrix2x3fvDelegate(GLint location, GLsizei count, GLboolean transpose, GLfloat* value);
+	public delegate void glUniformMatrix2x3fvDelegate(GLint location, GLsizei count, GLboolean transpose, ref GLfloat value);
 
 	public static readonly glUniformMatrix3x2fvDelegate glUniformMatrix3x2fv = Marshal.GetDelegateForFunctionPointer<glUniformMatrix3x2fvDelegate>(GetMethodAddress("glUniformMatrix3x2fv"));
-	public delegate void glUniformMatrix3x2fvDelegate(GLint location, GLsizei count, GLboolean transpose, GLfloat* value);
+	public delegate void glUniformMatrix3x2fvDelegate(GLint location, GLsizei count, GLboolean transpose, ref GLfloat value);
 
 	public static readonly glUniformMatrix2x4fvDelegate glUniformMatrix2x4fv = Marshal.GetDelegateForFunctionPointer<glUniformMatrix2x4fvDelegate>(GetMethodAddress("glUniformMatrix2x4fv"));
-	public delegate void glUniformMatrix2x4fvDelegate(GLint location, GLsizei count, GLboolean transpose, GLfloat* value);
+	public delegate void glUniformMatrix2x4fvDelegate(GLint location, GLsizei count, GLboolean transpose, ref GLfloat value);
 
 	public static readonly glUniformMatrix4x2fvDelegate glUniformMatrix4x2fv = Marshal.GetDelegateForFunctionPointer<glUniformMatrix4x2fvDelegate>(GetMethodAddress("glUniformMatrix4x2fv"));
-	public delegate void glUniformMatrix4x2fvDelegate(GLint location, GLsizei count, GLboolean transpose, GLfloat* value);
+	public delegate void glUniformMatrix4x2fvDelegate(GLint location, GLsizei count, GLboolean transpose, ref GLfloat value);
 
 	public static readonly glUniformMatrix3x4fvDelegate glUniformMatrix3x4fv = Marshal.GetDelegateForFunctionPointer<glUniformMatrix3x4fvDelegate>(GetMethodAddress("glUniformMatrix3x4fv"));
-	public delegate void glUniformMatrix3x4fvDelegate(GLint location, GLsizei count, GLboolean transpose, GLfloat* value);
+	public delegate void glUniformMatrix3x4fvDelegate(GLint location, GLsizei count, GLboolean transpose, ref GLfloat value);
 
 	public static readonly glUniformMatrix4x3fvDelegate glUniformMatrix4x3fv = Marshal.GetDelegateForFunctionPointer<glUniformMatrix4x3fvDelegate>(GetMethodAddress("glUniformMatrix4x3fv"));
-	public delegate void glUniformMatrix4x3fvDelegate(GLint location, GLsizei count, GLboolean transpose, GLfloat* value);
+	public delegate void glUniformMatrix4x3fvDelegate(GLint location, GLsizei count, GLboolean transpose, ref GLfloat value);
 
 	public static readonly glUniformBlockBindingDelegate glUniformBlockBinding = Marshal.GetDelegateForFunctionPointer<glUniformBlockBindingDelegate>(GetMethodAddress("glUniformBlockBinding"));
 	public delegate void glUniformBlockBindingDelegate(GLuint program, GLuint uniformBlockIndex, GLuint uniformBlockBinding);
