@@ -24,7 +24,7 @@ public static class Debug
 	public static void LogErrors() 
 	{
 		foreach (var x in Errors)
-			Console.WriteLine(x);
+			Console.WriteLine($"Error {x}.");
 	}
 
 	public static void ClearErrors() 
