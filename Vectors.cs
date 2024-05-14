@@ -8,8 +8,8 @@ public struct Vector4
 {
 	public float x, y, z, w;
 
-	public float Length => (float)Math.Sqrt(x*x + y*y + z*z + w*w);
-	public Vector4 Normalized => this / this.Length;
+	public readonly float Length => (float)Math.Sqrt(x*x + y*y + z*z + w*w);
+	public readonly Vector4 Normalized => this / this.Length;
 
 	public static readonly Vector4 Zero = new Vector4(0f, 0f, 0f, 0f);
 	public static readonly Vector4 One = new Vector4(1f, 1f, 1f, 1f);
@@ -21,6 +21,8 @@ public struct Vector4
 	public static Vector4 operator + (Vector4 a, Vector4 b) => new Vector4(a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w);
 	public static Vector4 operator - (Vector4 a, Vector4 b) => new Vector4(a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w);
 
+	public static float Dot(Vector4 a, Vector4 b) => a.x*b.x + a.y*b.y + a.z*b.z + a.w*b.w;
+
 	public override string ToString() => $"({x}, {y}, {z}, {w})";
 
 	public Vector4(float x, float y, float z, float w) => (this.x, this.y, this.z, this.w) = (x, y, z, w);
@@ -31,8 +33,8 @@ public struct Vector3
 {
 	public float x, y, z;
 
-	public float Length => (float)Math.Sqrt(x*x + y*y + z*z);
-	public Vector3 Normalized => this / this.Length;
+	public readonly float Length => (float)Math.Sqrt(x*x + y*y + z*z);
+	public readonly Vector3 Normalized => this / this.Length;
 
 	public static readonly Vector3 Zero = new Vector3(0f, 0f, 0f);
 	public static readonly Vector3 One = new Vector3(1f, 1f, 1f);
@@ -63,8 +65,8 @@ public struct Vector2
 {
 	public float x, y;
 
-	public float Length => (float)Math.Sqrt(x*x + y*y);
-	public Vector2 Normalized => this / this.Length;
+	public readonly float Length => (float)Math.Sqrt(x*x + y*y);
+	public readonly Vector2 Normalized => this / this.Length;
 
 	public static readonly Vector2 Zero = new Vector2(0f, 0f);
 	public static readonly Vector2 One = new Vector2(1f, 1f);
@@ -93,8 +95,8 @@ public struct Vector4Int
 {
 	public int x, y, z, w;
 
-	public int Length => (int)Math.Sqrt(x*x + y*y + z*z + w*w);
-	public Vector4Int Normalized => this / this.Length;
+	public readonly int Length => (int)Math.Sqrt(x*x + y*y + z*z + w*w);
+	public readonly Vector4Int Normalized => this / this.Length;
 
 	public static readonly Vector4Int Zero = new Vector4Int(0, 0, 0, 0);
 	public static readonly Vector4Int One = new Vector4Int(1, 1, 1, 1);
@@ -116,8 +118,8 @@ public struct Vector3Int
 {
 	public int x, y, z;
 
-	public int Length => (int)Math.Sqrt(x*x + y*y + z*z);
-	public Vector3Int Normalized => this / this.Length;
+	public readonly int Length => (int)Math.Sqrt(x*x + y*y + z*z);
+	public readonly Vector3Int Normalized => this / this.Length;
 
 	public static readonly Vector3Int Zero = new Vector3Int(0, 0, 0);
 	public static readonly Vector3Int One = new Vector3Int(1, 1, 1);
@@ -148,8 +150,8 @@ public struct Vector2Int
 {
 	public int x, y;
 
-	public int Length => (int)Math.Sqrt(x*x + y*y);
-	public Vector2Int Normalized => this / this.Length;
+	public readonly int Length => (int)Math.Sqrt(x*x + y*y);
+	public readonly Vector2Int Normalized => this / this.Length;
 
 	public static readonly Vector2Int Zero = new Vector2Int(0, 0);
 	public static readonly Vector2Int One = new Vector2Int(1, 1);
