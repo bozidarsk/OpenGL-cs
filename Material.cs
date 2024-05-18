@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Linq;
 
 using static OpenGL.Methods;
@@ -24,8 +25,11 @@ public sealed class Material : IDisposable
 			Use();
 
 			int location = glGetUniformLocation(this, name);
-			if (location == -1)
+			if (location == -1) 
+			{
+				Console.WriteLine($"Uniform variable '{name}' not found in material '{this.ToString()}'.");
 				return;
+			}
 
 			if (value is float)
 				glUniform1f(location, (float)value);
@@ -35,6 +39,8 @@ public sealed class Material : IDisposable
 				glUniform3f(location, ((Vector3)value).x, ((Vector3)value).y, ((Vector3)value).z);
 			else if (value is Vector4)
 				glUniform4f(location, ((Vector4)value).x, ((Vector4)value).y, ((Vector4)value).z, ((Vector4)value).w);
+			else if (value is Matrix4x4)
+				glUniformMatrix4fv(location, 1, true, ref Unsafe.As<Matrix4x4, float>(ref Unsafe.Unbox<Matrix4x4>(value)));
 			else
 				throw new ArgumentException($"Invalid type '{value.GetType()}'.");
 		}

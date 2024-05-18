@@ -25,9 +25,11 @@ public sealed class Shader : IDisposable
 
 		layout(location = 0) in Vertex v;
 
+		uniform mat4x4 u_MVP;
+
 		void main() 
 		{
-			gl_Position = vec4(v.position.xyz, 1);
+			gl_Position = u_MVP * vec4(v.position.xyz, 1);
 		}
 	";
 	private const string defaultFragment = @"

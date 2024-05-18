@@ -1,3 +1,4 @@
+using System;
 using System.Runtime.InteropServices;
 
 namespace OpenGL;
@@ -15,28 +16,46 @@ public struct Matrix4x4
 	public readonly Vector4 z => new Vector4(zx, zy, zz, zw);
 	public readonly Vector4 t => new Vector4(tx, ty, tz, tw);
 
+	public readonly float Determinand => 0f
+		+ (xx*yy - yx*xy) * (zz*tw - tz*zw)
+		- (xx*zy - zx*xy) * (yz*tw - tz*yw)
+		+ (xx*ty - tx*xy) * (yz*zw - zz*yw)
+		+ (yx*zy - zx*yy) * (xz*tw - tz*xw)
+		- (yx*ty - tx*yy) * (xz*zw - zz*xw)
+		+ (zx*ty - tx*zy) * (xz*yw - yz*xw)
+	;
+
+	public readonly Matrix4x4 Transposed => new Matrix4x4(
+		new Vector4(xx, yx, zx, tx),
+		new Vector4(xy, yy, zy, ty),
+		new Vector4(xz, yz, zz, tz),
+		new Vector4(xw, yw, zw, tw)
+	);
+
 	public static readonly Matrix4x4 Identity = new Matrix4x4() 
 	{
-		xx = 1, yx = 0, zx = 0, tx = 0,
-		xy = 0, yy = 1, zy = 0, ty = 0,
-		xz = 0, yz = 0, zz = 1, tz = 0,
-		xw = 0, yw = 0, zw = 0, tw = 1,
+		xx = 1f, yx = 0f, zx = 0f, tx = 0f,
+		xy = 0f, yy = 1f, zy = 0f, ty = 0f,
+		xz = 0f, yz = 0f, zz = 1f, tz = 0f,
+		xw = 0f, yw = 0f, zw = 0f, tw = 1f,
 	};
 
 	public static readonly Matrix4x4 Zero = new Matrix4x4() 
 	{
-		xx = 0, yx = 0, zx = 0, tx = 0,
-		xy = 0, yy = 0, zy = 0, ty = 0,
-		xz = 0, yz = 0, zz = 0, tz = 0,
-		xw = 0, yw = 0, zw = 0, tw = 0,
+		xx = 0f, yx = 0f, zx = 0f, tx = 0f,
+		xy = 0f, yy = 0f, zy = 0f, ty = 0f,
+		xz = 0f, yz = 0f, zz = 0f, tz = 0f,
+		xw = 0f, yw = 0f, zw = 0f, tw = 0f,
 	};
 
 	public static Matrix4x4 operator * (Matrix4x4 l, Matrix4x4 r) => new Matrix4x4(
-		new Vector4(r.xx, r.xy, r.xz, r.xw) * l,
-		new Vector4(r.yx, r.yy, r.yz, r.yw) * l,
-		new Vector4(r.zx, r.zy, r.zz, r.zw) * l,
-		new Vector4(r.tx, r.ty, r.tz, r.tw) * l
+		l * r.x,
+		l * r.y,
+		l * r.z,
+		l * r.t
 	);
+
+	public static Vector4 operator * (Matrix4x4 m, Vector4 v) => v * m.Transposed;
 
 	public static Vector4 operator * (Vector4 v, Matrix4x4 m) => new Vector4(
 		Vector4.Dot(v, m.x),
@@ -44,6 +63,19 @@ public struct Matrix4x4
 		Vector4.Dot(v, m.z),
 		Vector4.Dot(v, m.t)
 	);
+
+	public override string ToString() => $"{xx:f6} {yx:f6} {zx:f6} {tx:f6}\n{xy:f6} {yy:f6} {zy:f6} {ty:f6}\n{xz:f6} {yz:f6} {zz:f6} {tz:f6}\n{xw:f6} {yw:f6} {zw:f6} {tw:f6}";
+
+	public static Matrix4x4 Ortho(float left, float right, float bottom, float top, float near, float far) 
+	{
+		return new Matrix4x4() 
+		{
+			xx = 2f / (right - left), yx = 0f,                  zx = 0f,                 tx = -(right + left) / (right - left),
+			xy = 0f,                  yy = 2f / (top - bottom), zy = 0f,                 ty = -(top + bottom) / (top - bottom),
+			xz = 0f,                  yz = 0f,                  zz = -2f / (far - near), tz = -(far + near) / (far - near),
+			xw = 0f,                  yw = 0f,                  zw = 0f,                 tw = 1f,
+		};
+	}
 
 	public Matrix4x4(Vector4 x, Vector4 y, Vector4 z, Vector4 t) 
 	{
