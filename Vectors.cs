@@ -23,7 +23,7 @@ public struct Vector4
 
 	public static float Dot(Vector4 a, Vector4 b) => a.x*b.x + a.y*b.y + a.z*b.z + a.w*b.w;
 
-	public override string ToString() => $"({x}, {y}, {z}, {w})";
+	public override string ToString() => $"({x:f6}, {y:f6}, {z:f6}, {w:f6})";
 
 	public Vector4(float x, float y, float z, float w) => (this.x, this.y, this.z, this.w) = (x, y, z, w);
 }
@@ -55,7 +55,7 @@ public struct Vector3
 	public static float Dot(Vector3 a, Vector3 b) => a.x*b.x + a.y*b.y + a.z*b.z;
 	public static Vector3 Cross(Vector3 a, Vector3 b) => new Vector3(a.y*b.z - a.z*b.y, a.z*b.x - a.x*b.z, a.x*b.y - a.y*b.x);
 
-	public override string ToString() => $"({x}, {y}, {z})";
+	public override string ToString() => $"({x:f6}, {y:f6}, {z:f6})";
 
 	public Vector3(float x, float y, float z) => (this.x, this.y, this.z) = (x, y, z);
 }
@@ -85,7 +85,7 @@ public struct Vector2
 	public static float Dot(Vector2 a, Vector2 b) => a.x*b.x + a.y*b.y;
 	public static Vector3 Cross(Vector2 a, Vector2 b) => new Vector3(0f, 0f, a.x*b.y - a.y*b.x);
 
-	public override string ToString() => $"({x}, {y})";
+	public override string ToString() => $"({x:f6}, {y:f6})";
 
 	public Vector2(float x, float y) => (this.x, this.y) = (x, y);
 }
