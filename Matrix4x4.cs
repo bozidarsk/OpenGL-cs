@@ -55,14 +55,7 @@ public struct Matrix4x4
 		l * r.t
 	);
 
-	public static Vector4 operator * (Matrix4x4 m, Vector4 v) => v * m.Transposed;
-
-	public static Vector4 operator * (Vector4 v, Matrix4x4 m) => new Vector4(
-		Vector4.Dot(v, m.x),
-		Vector4.Dot(v, m.y),
-		Vector4.Dot(v, m.z),
-		Vector4.Dot(v, m.t)
-	);
+	public static Vector4 operator * (Matrix4x4 m, Vector4 v) => (m.x * v.x) + (m.y * v.y) + (m.z * v.z) + (m.t * v.w);
 
 	public override string ToString() => $"{xx:f6} {yx:f6} {zx:f6} {tx:f6}\n{xy:f6} {yy:f6} {zy:f6} {ty:f6}\n{xz:f6} {yz:f6} {zz:f6} {tz:f6}\n{xw:f6} {yw:f6} {zw:f6} {tw:f6}";
 
@@ -76,6 +69,37 @@ public struct Matrix4x4
 			xw = 0f,                  yw = 0f,                  zw = 0f,                 tw = 1f,
 		};
 	}
+
+	public static Matrix4x4 Translate(Vector3 v) => Matrix4x4.Identity with { tx = v.x, ty = v.y, tz = v.z };
+	public static Matrix4x4 Scale(Vector3 v) => Matrix4x4.Identity with { xx = v.x, yy = v.y, zz = v.z };
+	public static Matrix4x4 Rotate(Quaternion q) 
+	{
+		// from https://github.com/Unity-Technologies/UnityCsReference/blob/master/Runtime/Export/Math/Matrix4x4.cs#L370
+
+		// Precalculate coordinate products
+		float x = q.x * 2f;
+		float y = q.y * 2f;
+		float z = q.z * 2f;
+		float xx = q.x * x;
+		float yy = q.y * y;
+		float zz = q.z * z;
+		float xy = q.x * y;
+		float xz = q.x * z;
+		float yz = q.y * z;
+		float wx = q.w * x;
+		float wy = q.w * y;
+		float wz = q.w * z;
+
+		// Calculate 3x3 matrix from orthonormal basis
+		Matrix4x4 m;
+		m.xx = 1.0f - (yy + zz); m.yx = xy + wz; m.zx = xz - wy; m.tx = 0.0f;
+		m.xy = xy - wz; m.yy = 1.0f - (xx + zz); m.zy = yz + wx; m.ty = 0.0f;
+		m.xz = xz + wy; m.yz = yz - wx; m.zz = 1.0f - (xx + yy); m.tz = 0.0f;
+		m.xw = 0.0f; m.yw = 0.0f; m.zw = 0.0f; m.tw = 1.0f;
+		return m;
+	}
+
+	public static Matrix4x4 TRS(Vector3 t, Quaternion r, Vector3 s) => Translate(t) * (Rotate(r) * Scale(s));
 
 	public Matrix4x4(Vector4 x, Vector4 y, Vector4 z, Vector4 t) 
 	{
