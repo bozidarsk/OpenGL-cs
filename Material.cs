@@ -20,7 +20,9 @@ public sealed class Material : IDisposable
 		set 
 		{
 			if (name == null)
-				throw new ArgumentNullException();
+				throw new ArgumentNullException("Name can not be null.");
+			if (value == null)
+				throw new ArgumentNullException("Value can not be null.");
 
 			Use();
 
