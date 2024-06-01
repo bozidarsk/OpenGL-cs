@@ -59,6 +59,20 @@ public struct Matrix4x4
 
 	public override string ToString() => $"{xx:f6} {yx:f6} {zx:f6} {tx:f6}\n{xy:f6} {yy:f6} {zy:f6} {ty:f6}\n{xz:f6} {yz:f6} {zz:f6} {tz:f6}\n{xw:f6} {yw:f6} {zw:f6} {tw:f6}";
 
+	public static Matrix4x4 Perspective(float fov, float ratio, float near, float far) 
+	{
+		fov *= (float)Math.PI / 180f;
+		float tan = (float)Math.Tan(fov / 2f);
+
+		return new Matrix4x4() 
+		{
+			xx = 1f / (ratio * tan), yx = 0f,       zx = 0f,                                tx = 0f,
+			xy = 0f,                 yy = 1f / tan, zy = 0f,                                ty = 0f,
+			xz = 0f,                 yz = 0f,       zz = -(near + far) / (far - near),      tz = -1f,
+			xw = 0f,                 yw = 0f,       zw = -(2f * near * far) / (far - near), tw = 0f,
+		};
+	}
+	
 	public static Matrix4x4 Ortho(float left, float right, float bottom, float top, float near, float far) 
 	{
 		return new Matrix4x4() 
