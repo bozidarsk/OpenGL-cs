@@ -3,8 +3,6 @@ namespace OpenGL;
 public static class Constants 
 {
 	internal const string GL_LIB = "opengl32";
-	internal const string GLFW_LIB = "glfw3";
-
 
 	#region gl.h
 

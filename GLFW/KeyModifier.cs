@@ -1,12 +1,14 @@
+using static OpenGL.GLFW.Constants;
+
 namespace OpenGL.GLFW;
 
 [System.Flags]
 public enum KeyModifier : int
 {
-	Shift = 0x0001,
-	Control = 0x0002,
-	Alt = 0x0004,
-	Super = 0x0008,
-	CapsLock = 0x0010,
-	NumLock = 0x0020,
+	Shift = GLFW_MOD_SHIFT,
+	Control = GLFW_MOD_CONTROL,
+	Alt = GLFW_MOD_ALT,
+	Super = GLFW_MOD_SUPER,
+	CapsLock = GLFW_MOD_CAPS_LOCK,
+	NumLock = GLFW_MOD_NUM_LOCK,
 }

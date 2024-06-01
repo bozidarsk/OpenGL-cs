@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 namespace OpenGL.GLFW;
 
 [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-internal delegate void DropCallback(nint window, int count, nint paths);
+internal unsafe delegate void DropCallback(nint window, int count, sbyte** paths);
 
 public delegate void DropEventHandler(object sender, DropEventArgs args);
 

@@ -1,6 +1,6 @@
 using System.Runtime.InteropServices;
 
-using static OpenGL.Constants;
+using static OpenGL.GLFW.Constants;
 
 namespace OpenGL.GLFW;
 

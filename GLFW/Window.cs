@@ -1,9 +1,10 @@
 using System;
+using System.Collections.Immutable;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Linq;
 
-using static OpenGL.Constants;
+using static OpenGL.GLFW.Constants;
 
 namespace OpenGL.GLFW;
 
@@ -138,30 +139,26 @@ public sealed class Window : IDisposable
 	public static implicit operator Window(nint x) => new Window(x);
 	private Window(nint handle) => this.handle = handle;
 
-	public Window(int width, int height) : this(width, height, "Managed OpenGL Window", null, null) {}
-	public Window(int width, int height, string title) : this(width, height, title, null, null) {}
-	public unsafe Window(int width, int height, string title, Monitor? monitor, Window? share) 
+	public unsafe Window(int width, int height, string title = "Managed OpenGL Window", Monitor? monitor = null, Window? share = null) 
 	{
 		handle = glfwCreateWindow(width, height, title, monitor, share);
 
-		// glfwSetKeyCallback(this, (nint window, int scancode, KeyState state, KeyModifier modifiers) => OnKey?.Invoke(window, new KeyEventArgs(scancode, state, modifiers)));
-		// glfwSetCharCallback(this, (nint window, uint codepoint) => OnChar?.Invoke(window, new CharEventArgs(codepoint)));
-		// glfwSetMouseButtonCallback(this, (nint window, KeyCode button, KeyState state, KeyModifier modifiers) => OnMouseButton?.Invoke(window, new MouseButtonEventArgs(button, state, modifiers)));
-		// glfwSetCursorPosCallback(this, (nint window, double x, double y) => OnCursorPosition?.Invoke(window, new CursorPositionEventArgs(x, y)));
-		// glfwSetCursorEnterCallback(this, (nint window, bool entered) => OnCursorEnter?.Invoke(window, new CursorEnterEventArgs(entered)));
-		// glfwSetScrollCallback(this, (nint window, double x, double y) => OnScroll?.Invoke(window, new ScrollEventArgs(x, y)));
-		// glfwSetDropCallback(this, (nint window, int count, nint paths) => OnDrop?.Invoke(window, new DropEventArgs(new byte[count].Select((x, i) => new string((sbyte*)GLFW.PointerIndexer<nint>(paths, i))).ToArray())));
+		glfwSetKeyCallback(this, (window, key, scancode, state, modifiers) => OnKey?.Invoke(this, new(key, scancode, state, modifiers)));
+		glfwSetCharCallback(this, (window, codepoint) => OnChar?.Invoke(this, new(codepoint)));
+		glfwSetMouseButtonCallback(this, (window, button, state, modifiers) => OnMouseButton?.Invoke(this, new(button, state, modifiers)));
+		glfwSetCursorPosCallback(this, (window, x, y) => OnCursorPosition?.Invoke(this, new(x, y)));
+		glfwSetCursorEnterCallback(this, (window, entered) => OnCursorEnter?.Invoke(this, new(entered)));
+		glfwSetScrollCallback(this, (window, x, y) => OnScroll?.Invoke(this, new(x, y)));
+		// glfwSetDropCallback(this, (window, count, paths) => OnDrop?.Invoke(window, new(new ReadOnlySpan<nint>(paths, count).ToImmutableArray().Select(x => new string((sbyte*)x)).ToArray())));
 	}
 
-	/*
 	public event KeyEventHandler? OnKey;
 	public event CharEventHandler? OnChar;
 	public event MouseButtonEventHandler? OnMouseButton;
 	public event CursorPositionEventHandler? OnCursorPosition;
 	public event CursorEnterEventHandler? OnCursorEnter;
 	public event ScrollEventHandler? OnScroll;
-	public event DropEventHandler? OnDrop;
-	*/
+	// public event DropEventHandler? OnDrop;
 
 	// [DllImport(GLFW_LIB)] private static extern void glfwDefaultWindowHints();
 	// [DllImport(GLFW_LIB)] private static extern void glfwWindowHint(int hint, int value);

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 
-using static OpenGL.Constants;
+using static OpenGL.GLFW.Constants;
 
 namespace OpenGL.GLFW;
 

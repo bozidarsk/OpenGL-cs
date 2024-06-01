@@ -12,5 +12,7 @@ public sealed class CharEventArgs : EventArgs
 {
 	public uint CodePoint { get; }
 
+	public char Char => (char)CodePoint;
+
 	public CharEventArgs(uint codepoint) => (this.CodePoint) = (codepoint);
 }
