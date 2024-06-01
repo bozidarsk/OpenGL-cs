@@ -25,6 +25,8 @@ public sealed class Shader : IDisposable
 
 		struct v2f 
 		{
+			vec3 worldPosition;
+			vec2 screenPosition;
 			vec3 normal;
 			vec2 uv;
 		};
@@ -41,9 +43,15 @@ public sealed class Shader : IDisposable
 
 		void main() 
 		{
+			vec4 wp = LOCAL_TO_WORLD * vec4(v.position.xyz, 1);
+			vec4 sp = PROJECTION * wp;
+
+			o.worldPosition = wp.xyz;
+			o.screenPosition = sp.xy;
 			o.normal = (LOCAL_TO_WORLD * vec4(v.normal.xyz, 0)).xyz;
 			o.uv = v.uv;
-			gl_Position = (PROJECTION * LOCAL_TO_WORLD) * vec4(v.position.xyz, 1);
+
+			gl_Position = sp;
 		}
 	";
 	private const string defaultFragment = @"
@@ -58,6 +66,8 @@ public sealed class Shader : IDisposable
 
 		struct v2f 
 		{
+			vec3 worldPosition;
+			vec2 screenPosition;
 			vec3 normal;
 			vec2 uv;
 		};
