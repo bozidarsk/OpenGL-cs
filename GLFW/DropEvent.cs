@@ -6,7 +6,7 @@ namespace OpenGL.GLFW;
 [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 internal unsafe delegate void DropCallback(nint window, int count, sbyte** paths);
 
-public delegate void DropEventHandler(object sender, DropEventArgs args);
+public delegate void DropEventHandler(object? sender, DropEventArgs args);
 
 public sealed class DropEventArgs : EventArgs
 {

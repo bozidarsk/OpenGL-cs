@@ -6,7 +6,7 @@ namespace OpenGL.GLFW;
 [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 internal delegate void MouseButtonCallback(nint window, KeyCode button, KeyState state, KeyModifier modifiers);
 
-public delegate void MouseButtonEventHandler(object sender, MouseButtonEventArgs args);
+public delegate void MouseButtonEventHandler(object? sender, MouseButtonEventArgs args);
 
 public sealed class MouseButtonEventArgs : EventArgs
 {

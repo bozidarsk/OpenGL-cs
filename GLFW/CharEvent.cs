@@ -6,7 +6,7 @@ namespace OpenGL.GLFW;
 [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 internal delegate void CharCallback(nint window, uint codepoint);
 
-public delegate void CharEventHandler(object sender, CharEventArgs args);
+public delegate void CharEventHandler(object? sender, CharEventArgs args);
 
 public sealed class CharEventArgs : EventArgs
 {

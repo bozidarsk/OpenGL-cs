@@ -6,7 +6,7 @@ namespace OpenGL.GLFW;
 [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 internal delegate void CursorPositionCallback(nint window, double x, double y);
 
-public delegate void CursorPositionEventHandler(object sender, CursorPositionEventArgs args);
+public delegate void CursorPositionEventHandler(object? sender, CursorPositionEventArgs args);
 
 public sealed class CursorPositionEventArgs : EventArgs
 {

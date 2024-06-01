@@ -7,7 +7,7 @@ namespace OpenGL;
 [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
 public delegate void ErrorCallback(uint source, uint type, uint id, uint severity, int length, string message, nint userPointer);
 
-public delegate void ErrorEventHandler(object sender, ErrorEventArgs args);
+public delegate void ErrorEventHandler(object? sender, ErrorEventArgs args);
 
 public sealed class ErrorEventArgs : EventArgs
 {

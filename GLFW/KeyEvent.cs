@@ -6,7 +6,7 @@ namespace OpenGL.GLFW;
 [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 internal delegate void KeyCallback(nint window, KeyCode key, int scancode, KeyState state, KeyModifier modifiers);
 
-public delegate void KeyEventHandler(object sender, KeyEventArgs args);
+public delegate void KeyEventHandler(object? sender, KeyEventArgs args);
 
 public sealed class KeyEventArgs : EventArgs
 {

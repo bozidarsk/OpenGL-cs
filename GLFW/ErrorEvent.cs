@@ -7,7 +7,7 @@ namespace OpenGL.GLFW;
 [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
 internal unsafe delegate void ErrorCallback(int code, sbyte* message);
 
-public delegate void ErrorEventHandler(object sender, ErrorEventArgs args);
+public delegate void ErrorEventHandler(object? sender, ErrorEventArgs args);
 
 public sealed class ErrorEventArgs : EventArgs
 {
