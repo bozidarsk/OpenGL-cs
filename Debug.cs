@@ -36,7 +36,7 @@ public static class Debug
 	{
 		glDebugMessageCallback(
 			(uint source, uint type, uint id, uint severity, int length, string message, nint userPointer) => 
-				OnError?.Invoke(null!, new(source, type, id, severity, message, userPointer)),
+				OnError?.Invoke(null, new(source, type, id, severity, message, userPointer)),
 			nint.Zero
 		);
 	}
