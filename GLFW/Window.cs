@@ -146,7 +146,7 @@ public sealed class Window : IDisposable
 		glfwSetCursorPosCallback(this, (window, x, y) => OnCursorPosition?.Invoke(this, new(x, y)));
 		glfwSetCursorEnterCallback(this, (window, entered) => OnCursorEnter?.Invoke(this, new(entered)));
 		glfwSetScrollCallback(this, (window, x, y) => OnScroll?.Invoke(this, new(x, y)));
-		// glfwSetDropCallback(this, (window, count, paths) => OnDrop?.Invoke(window, new(new ReadOnlySpan<nint>(paths, count).ToImmutableArray().Select(x => new string((sbyte*)x)).ToArray())));
+		glfwSetDropCallback(this, (window, count, paths) => OnDrop?.Invoke(window, new(new ReadOnlySpan<nint>(paths, count).ToImmutableArray().Select(x => new string((sbyte*)x)).ToArray())));
 	}
 
 	public event KeyEventHandler? OnKey;
@@ -155,7 +155,7 @@ public sealed class Window : IDisposable
 	public event CursorPositionEventHandler? OnCursorPosition;
 	public event CursorEnterEventHandler? OnCursorEnter;
 	public event ScrollEventHandler? OnScroll;
-	// public event DropEventHandler? OnDrop;
+	public event DropEventHandler? OnDrop;
 
 	// [DllImport(GLFW_LIB)] private static extern void glfwDefaultWindowHints();
 	// [DllImport(GLFW_LIB)] private static extern void glfwWindowHint(int hint, int value);

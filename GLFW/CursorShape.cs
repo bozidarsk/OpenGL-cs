@@ -1,3 +1,5 @@
+using static OpenGL.GLFW.Constants;
+
 namespace OpenGL.GLFW;
 
 public enum CursorShape : int
