@@ -10,7 +10,7 @@ public sealed class Monitor
 {
 	private nint handle;
 
-	public string Name => glfwGetMonitorName(this);
+	public unsafe string Name => new string(glfwGetMonitorName(this));
 
 	public (int, int) Position 
 	{
@@ -76,7 +76,7 @@ public sealed class Monitor
 	[DllImport(GLFW_LIB)] private static extern void glfwGetMonitorWorkarea(nint monitor, out int xpos, out int ypos, out int width, out int height);
 	[DllImport(GLFW_LIB)] private static extern void glfwGetMonitorPhysicalSize(nint monitor, out int widthMM, out int heightMM);
 	[DllImport(GLFW_LIB)] private static extern void glfwGetMonitorContentScale(nint monitor, out float xscale, out float yscale);
-	[DllImport(GLFW_LIB)] private static extern string glfwGetMonitorName(nint monitor);
+	[DllImport(GLFW_LIB)] private static extern unsafe sbyte* glfwGetMonitorName(nint monitor);
 	[DllImport(GLFW_LIB)] private static extern void glfwSetMonitorUserPointer(nint monitor, nint pointer);
 	[DllImport(GLFW_LIB)] private static extern nint glfwGetMonitorUserPointer(nint monitor);
 	// [DllImport(GLFW_LIB)] private static extern GLFWmonitorfun glfwSetMonitorCallback(GLFWmonitorfun callback);

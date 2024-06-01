@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
 
 using static OpenGL.GLFW.Constants;
 
@@ -7,7 +8,7 @@ namespace OpenGL.GLFW;
 public static class GLFW 
 {
 	public static bool IsInitialized => glfwInit();
-	public static string Version => glfwGetVersionString();
+	public static unsafe string Version => new string(glfwGetVersionString());
 	public static Platform Platform => glfwGetPlatform();
 
 	// separate in GLFW in OpenGl.GLFW ???
@@ -34,8 +35,7 @@ public static class GLFW
 	// [DllImport(GLFW_LIB)] private static extern void glfwInitAllocator(GLFWallocator* allocator);
 	// [DllImport(GLFW_LIB)] private static extern void glfwInitVulkanLoader(PFN_vkGetInstanceProcAddr loader);
 	[DllImport(GLFW_LIB)] private static extern void glfwGetVersion(out int major, out int minor, out int rev);
-	[DllImport(GLFW_LIB)] private static extern string glfwGetVersionString();
-	[DllImport(GLFW_LIB)] private static extern int glfwGetError(out string description);
+	[DllImport(GLFW_LIB)] private static extern unsafe sbyte* glfwGetVersionString();
 	[DllImport(GLFW_LIB)] private static extern void glfwSetErrorCallback(ErrorHandlerDelegate callback);
 	[DllImport(GLFW_LIB)] private static extern Platform glfwGetPlatform();
 	[DllImport(GLFW_LIB)] private static extern bool glfwPlatformSupported(Platform platform);

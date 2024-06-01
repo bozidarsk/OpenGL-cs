@@ -15,7 +15,6 @@ public sealed class Window : IDisposable
 	public string Title 
 	{
 		set => glfwSetWindowTitle(this, value);
-		get => glfwGetWindowTitle(this);
 	}
 
 	public nint UserPointer 
@@ -87,10 +86,10 @@ public sealed class Window : IDisposable
 		}
 	}
 
-	public string ClipboardText 
+	public unsafe string ClipboardText 
 	{
 		set => glfwSetClipboardString(this, value);
-		get => glfwGetClipboardString(this);
+		get => new string(glfwGetClipboardString(this));
 	}
 
 	public (double, double) CursorPosition 
@@ -167,7 +166,6 @@ public sealed class Window : IDisposable
 	[DllImport(GLFW_LIB)] private static extern void glfwDestroyWindow(nint window);
 	[DllImport(GLFW_LIB)] private static extern bool glfwWindowShouldClose(nint window);
 	[DllImport(GLFW_LIB)] private static extern void glfwSetWindowShouldClose(nint window, bool value);
-	[DllImport(GLFW_LIB)] private static extern string glfwGetWindowTitle(nint window);
 	[DllImport(GLFW_LIB)] private static extern void glfwSetWindowTitle(nint window, string title);
 	[DllImport(GLFW_LIB)] private static extern void glfwSetWindowIcon(nint window, int count, nint image);
 	[DllImport(GLFW_LIB)] private static extern void glfwGetWindowPos(nint window, out int xpos, out int ypos);
@@ -220,5 +218,5 @@ public sealed class Window : IDisposable
 	[DllImport(GLFW_LIB)] private static extern void glfwSetScrollCallback(nint window, ScrollCallback callback);
 	[DllImport(GLFW_LIB)] private static extern void glfwSetDropCallback(nint window, DropCallback callback);
 	[DllImport(GLFW_LIB)] private static extern void glfwSetClipboardString(nint window, string str);
-	[DllImport(GLFW_LIB)] private static extern string glfwGetClipboardString(nint window);
+	[DllImport(GLFW_LIB)] private static extern unsafe sbyte* glfwGetClipboardString(nint window);
 }
