@@ -130,8 +130,6 @@ public sealed class Window : IDisposable
 	public void Focus() => glfwFocusWindow(this);
 	public void RequestAttention() => glfwRequestWindowAttention(this);
 
-	public override string ToString() => this.Title;
-
 	public void Dispose() => glfwDestroyWindow(this);
 
 	public static implicit operator nint(Window? x) => (x != null) ? x.handle : nint.Zero;
