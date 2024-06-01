@@ -20,6 +20,8 @@ public sealed class Mesh
 
 	public void BindVertexBuffer() => vertices.Bind();
 	public void BindIndexBuffer() => indices.Bind();
+	public void EnableVertexAttributes() => vertices.EnableAttributes<Vertex>();
+	public void DisableVertexAttributes() => vertices.DisableAttributes<Vertex>();
 
 	public Mesh(Vertex[] vertices, uint[] indices) : this(new Span<Vertex>(vertices), new Span<uint>(indices)) {}
 
@@ -40,7 +42,5 @@ public sealed class Mesh
 			BufferType.ElementArray,
 			BufferUsage.StaticDraw
 		);
-
-		this.vertices.RegisterAttributes<Vertex>();
 	}
 }

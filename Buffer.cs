@@ -24,14 +24,12 @@ public sealed class Buffer : IDisposable
 		glDeleteBuffers(1, ref obj);
 	}
 
-	public void RegisterAttributes<TElement>() 
+	public void EnableAttributes<T>() where T : struct
 	{
-		Type elementType = typeof(TElement);
-		uint fieldIndex = 0;
-
 		Bind();
 
-		foreach (FieldInfo field in elementType.GetFields(BindingFlags.Public | BindingFlags.DeclaredOnly | BindingFlags.Instance)) 
+		uint fieldIndex = 0;
+		foreach (FieldInfo field in typeof(T).GetFields(BindingFlags.Public | BindingFlags.DeclaredOnly | BindingFlags.Instance)) 
 		{
 			glEnableVertexAttribArray(fieldIndex);
 			glVertexAttribPointer(
@@ -39,12 +37,21 @@ public sealed class Buffer : IDisposable
 				Marshal.SizeOf(field.FieldType) / sizeof(float),
 				GL_FLOAT,
 				false,
-				Marshal.SizeOf(elementType),
-				Marshal.OffsetOf(elementType, field.Name)
+				Marshal.SizeOf(typeof(T)),
+				Marshal.OffsetOf(typeof(T), field.Name)
 			);
 
 			fieldIndex++;
 		}
+	}
+
+	public void DisableAttributes<T>() where T : struct
+	{
+		Bind();
+
+		uint fieldIndex = 0;
+		foreach (FieldInfo field in typeof(T).GetFields(BindingFlags.Public | BindingFlags.DeclaredOnly | BindingFlags.Instance))
+			glDisableVertexAttribArray(fieldIndex++);
 	}
 
 	public override string ToString() => $"{this.GetType()} {id}";

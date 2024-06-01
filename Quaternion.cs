@@ -21,20 +21,24 @@ public struct Quaternion
 
 	public override string ToString() => $"({w:f6}, {x:f6}, {y:f6}, {z:f6})";
 
-	public Quaternion(float w, float x, float y, float z) => (this.w, this.x, this.y, this.z) = (w, x, y, z);
+	public static Quaternion Euler(Vector3 angles) => 
+		Quaternion.AxisAngle(Vector3.Right, angles.x) * Quaternion.AxisAngle(Vector3.Up, angles.y) * Quaternion.AxisAngle(Vector3.Forward, angles.z)
+	;
 
-	public Quaternion(Vector3 euler) => this = new Quaternion(Vector3.Right, euler.x) * new Quaternion(Vector3.Up, euler.y) * new Quaternion(Vector3.Forward, euler.z);
-
-	public Quaternion(Vector3 axis, float angle) 
+	public static Quaternion AxisAngle(Vector3 axis, float angle) 
 	{
 		angle /= 2f;
 		angle *= (float)Math.PI / 180f;
 
 		axis = axis.Normalized * (float)Math.Sin(angle);
 
-		this.w = (float)Math.Cos(angle);
-		this.x = axis.x;
-		this.y = axis.y;
-		this.z = -axis.z;
+		return new Quaternion(
+			(float)Math.Cos(angle),
+			axis.x,
+			axis.y,
+			-axis.z
+		);
 	}
+
+	public Quaternion(float w, float x, float y, float z) => (this.w, this.x, this.y, this.z) = (w, x, y, z);
 }

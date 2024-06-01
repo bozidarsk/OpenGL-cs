@@ -7,17 +7,12 @@ namespace OpenGL;
 
 public static class Renderer 
 {
-	public static void Render(Material material, params Mesh[] meshes) => Render(material, (IEnumerable<Mesh>)meshes);
-	public static void Render(Material material, IEnumerable<Mesh> meshes) 
+	public static void Render(Matrix4x4 projection, params SceneObject[] objects) => Render(projection, (IEnumerable<SceneObject>)objects);
+	public static void Render(Matrix4x4 projection, IEnumerable<SceneObject> objects) 
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		material.Use();
-
-		foreach (Mesh mesh in meshes) 
-		{
-			mesh.BindIndexBuffer();
-			glDrawElements(GL_TRIANGLES, mesh.IndexCount, GL_UNSIGNED_INT, nint.Zero);
-		}
+		foreach (SceneObject obj in objects)
+			obj.Render(projection);
 	}
 }

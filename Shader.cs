@@ -23,23 +23,58 @@ public sealed class Shader : IDisposable
 			vec2 uv;
 		};
 
-		layout(location = 0) in Vertex v;
+		struct v2f 
+		{
+			vec3 normal;
+			vec2 uv;
+		};
 
-		uniform mat4x4 u_MVP;
+		uniform mat4x4 LOCAL_TO_WORLD;
+		uniform mat4x4 PROJECTION;
+
+
+
+
+
+		layout(location = 0) in Vertex v;
+		layout(location = 0) out v2f o;
 
 		void main() 
 		{
-			gl_Position = u_MVP * vec4(v.position.xyz, 1);
+			o.normal = (LOCAL_TO_WORLD * vec4(v.normal.xyz, 0)).xyz;
+			o.uv = v.uv;
+			gl_Position = (PROJECTION * LOCAL_TO_WORLD) * vec4(v.position.xyz, 1);
 		}
 	";
 	private const string defaultFragment = @"
 		#version 440 core
 
+		struct Vertex 
+		{
+			vec3 position;
+			vec3 normal;
+			vec2 uv;
+		};
+
+		struct v2f 
+		{
+			vec3 normal;
+			vec2 uv;
+		};
+
+		uniform mat4x4 LOCAL_TO_WORLD;
+		uniform mat4x4 PROJECTION;
+
+
+
+
+
 		layout(location = 0) out vec4 color;
+		layout(location = 0) in v2f f;
 
 		void main() 
 		{
-			color = vec4(0.8, 0.5, 0.5, 1);
+			color = vec4(f.uv.xy, 0, 1);
 		}
 	";
 
