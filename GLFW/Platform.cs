@@ -2,10 +2,10 @@ namespace OpenGL.GLFW;
 
 public enum Platform : uint
 {
-	Any = 0x00060000,
-	Win32 = 0x00060001,
-	Cocoa = 0x00060002,
-	Wayland = 0x00060003,
-	X11 = 0x00060004,
-	Null = 0x00060005,
+	Any = GLFW_ANY_PLATFORM,
+	Win32 = GLFW_PLATFORM_WIN32,
+	Cocoa = GLFW_PLATFORM_COCOA,
+	Wayland = GLFW_PLATFORM_WAYLAND,
+	X11 = GLFW_PLATFORM_X11,
+	Null = GLFW_PLATFORM_NULL,
 }

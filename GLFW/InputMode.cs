@@ -1,10 +1,12 @@
+using static OpenGL.GLFW.Constants;
+
 namespace OpenGL.GLFW;
 
 public enum InputMode : int
 {
-	Cursor = 0x00033001,
-	StickyKeys = 0x00033002,
-	StickyMouseButtons = 0x00033003,
-	LockKeyMods = 0x00033004,
-	RawMouseMotion = 0x00033005,
+	Cursor = GLFW_CURSOR,
+	StickyKeys = GLFW_STICKY_KEYS,
+	StickyMouseButtons = GLFW_STICKY_MOUSE_BUTTONS,
+	LockKeyMods = GLFW_LOCK_KEY_MODS,
+	RawMouseMotion = GLFW_RAW_MOUSE_MOTION,
 }
