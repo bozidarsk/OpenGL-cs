@@ -7,7 +7,7 @@ using static OpenGL.Constants;
 
 namespace OpenGL;
 
-public sealed class Mesh 
+public sealed class Mesh : IDisposable
 {
 	private Buffer vertices;
 	private Buffer indices;
@@ -17,6 +17,12 @@ public sealed class Mesh
 
 	public unsafe ReadOnlySpan<Vertex> Vertices => new ReadOnlySpan<Vertex>((void*)vertices.Data, vertices.Count);
 	public unsafe ReadOnlySpan<uint> Indices => new ReadOnlySpan<uint>((void*)indices.Data, indices.Count);
+
+	public void Dispose() 
+	{
+		vertices.Dispose();
+		indices.Dispose();
+	}
 
 	public void BindVertexBuffer() => vertices.Bind();
 	public void BindIndexBuffer() => indices.Bind();

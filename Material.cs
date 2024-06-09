@@ -43,6 +43,11 @@ public sealed class Material : IDisposable
 				glUniform4f(location, ((Vector4)value).x, ((Vector4)value).y, ((Vector4)value).z, ((Vector4)value).w);
 			else if (value is Matrix4x4)
 				glUniformMatrix4fv(location, 1, true, ref Unsafe.As<Matrix4x4, float>(ref Unsafe.Unbox<Matrix4x4>(value)));
+			else if (value is Texture) 
+			{
+				((Texture)value).Bind();
+				glUniform1i(location, 0); // slot
+			}
 			else
 				throw new ArgumentException($"Invalid type '{value.GetType()}'.");
 		}

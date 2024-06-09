@@ -447,7 +447,7 @@ public static unsafe class Methods
 	public delegate void glDeleteBuffersDelegate(GLsizei n, ref GLuint buffers);
 
 	public static readonly glDeleteFramebuffersDelegate glDeleteFramebuffers = Marshal.GetDelegateForFunctionPointer<glDeleteFramebuffersDelegate>(GetMethodAddress("glDeleteFramebuffers"));
-	public delegate void glDeleteFramebuffersDelegate(GLsizei n, GLuint* framebuffers);
+	public delegate void glDeleteFramebuffersDelegate(GLsizei n, ref GLuint framebuffers);
 
 	public static readonly glDeleteProgramDelegate glDeleteProgram = Marshal.GetDelegateForFunctionPointer<glDeleteProgramDelegate>(GetMethodAddress("glDeleteProgram"));
 	public delegate void glDeleteProgramDelegate(GLuint program);
@@ -471,7 +471,7 @@ public static unsafe class Methods
 	public delegate void glDeleteSyncDelegate(GLsync sync);
 
 	public static readonly glDeleteTexturesDelegate glDeleteTextures = Marshal.GetDelegateForFunctionPointer<glDeleteTexturesDelegate>(GetMethodAddress("glDeleteTextures"));
-	public delegate void glDeleteTexturesDelegate(GLsizei n, GLuint* textures);
+	public delegate void glDeleteTexturesDelegate(GLsizei n, ref GLuint textures);
 
 	public static readonly glDeleteTransformFeedbacksDelegate glDeleteTransformFeedbacks = Marshal.GetDelegateForFunctionPointer<glDeleteTransformFeedbacksDelegate>(GetMethodAddress("glDeleteTransformFeedbacks"));
 	public delegate void glDeleteTransformFeedbacksDelegate(GLsizei n, GLuint* ids);
@@ -518,6 +518,7 @@ public static unsafe class Methods
 	public static readonly glDrawArraysInstancedBaseInstanceDelegate glDrawArraysInstancedBaseInstance = Marshal.GetDelegateForFunctionPointer<glDrawArraysInstancedBaseInstanceDelegate>(GetMethodAddress("glDrawArraysInstancedBaseInstance"));
 	public delegate void glDrawArraysInstancedBaseInstanceDelegate(GLenum mode, GLint first, GLsizei count, GLsizei primcount, GLuint baseinstance);
 
+	[DllImport(GL_LIB)] public static extern void glDrawBuffer(GLenum buf);
 	// public static readonly glDrawBufferDelegate glDrawBuffer = Marshal.GetDelegateForFunctionPointer<glDrawBufferDelegate>(GetMethodAddress("glDrawBuffer"));
 	// public delegate void glDrawBufferDelegate(GLenum buf);
 
@@ -525,7 +526,7 @@ public static unsafe class Methods
 	public delegate void glNamedFramebufferDrawBufferDelegate(GLuint framebuffer, GLenum buf);
 
 	public static readonly glDrawBuffersDelegate glDrawBuffers = Marshal.GetDelegateForFunctionPointer<glDrawBuffersDelegate>(GetMethodAddress("glDrawBuffers"));
-	public delegate void glDrawBuffersDelegate(GLsizei n, GLenum* bufs);
+	public delegate void glDrawBuffersDelegate(GLsizei n, ref GLenum bufs);
 
 	public static readonly glNamedFramebufferDrawBuffersDelegate glNamedFramebufferDrawBuffers = Marshal.GetDelegateForFunctionPointer<glNamedFramebufferDrawBuffersDelegate>(GetMethodAddress("glNamedFramebufferDrawBuffers"));
 	public delegate void glNamedFramebufferDrawBuffersDelegate(GLuint framebuffer, GLsizei n, GLenum* bufs);
@@ -569,9 +570,11 @@ public static unsafe class Methods
 	public static readonly glDrawTransformFeedbackStreamInstancedDelegate glDrawTransformFeedbackStreamInstanced = Marshal.GetDelegateForFunctionPointer<glDrawTransformFeedbackStreamInstancedDelegate>(GetMethodAddress("glDrawTransformFeedbackStreamInstanced"));
 	public delegate void glDrawTransformFeedbackStreamInstancedDelegate(GLenum mode, GLuint id, GLuint stream, GLsizei primcount);
 
+	[DllImport(GL_LIB)] public static extern void glEnable(GLenum cap);
 	// public static readonly glEnableDelegate glEnable = Marshal.GetDelegateForFunctionPointer<glEnableDelegate>(GetMethodAddress("glEnable"));
 	// public delegate void glEnableDelegate(GLenum cap);
 
+	[DllImport(GL_LIB)] public static extern void glDisable(GLenum cap);
 	// public static readonly glDisableDelegate glDisable = Marshal.GetDelegateForFunctionPointer<glDisableDelegate>(GetMethodAddress("glDisable"));
 	// public delegate void glDisableDelegate(GLenum cap);
 
@@ -641,6 +644,7 @@ public static unsafe class Methods
 	public static readonly glNamedFramebufferTextureLayerDelegate glNamedFramebufferTextureLayer = Marshal.GetDelegateForFunctionPointer<glNamedFramebufferTextureLayerDelegate>(GetMethodAddress("glNamedFramebufferTextureLayer"));
 	public delegate void glNamedFramebufferTextureLayerDelegate(GLuint framebuffer, GLenum attachment, GLuint texture, GLint level, GLint layer);
 
+	[DllImport(GL_LIB)] public static extern void glFrontFace(GLenum mode);
 	// public static readonly glFrontFaceDelegate glFrontFace = Marshal.GetDelegateForFunctionPointer<glFrontFaceDelegate>(GetMethodAddress("glFrontFace"));
 	// public delegate void glFrontFaceDelegate(GLenum mode);
 
@@ -654,7 +658,7 @@ public static unsafe class Methods
 	public delegate void glGenerateTextureMipmapDelegate(GLuint texture);
 
 	public static readonly glGenFramebuffersDelegate glGenFramebuffers = Marshal.GetDelegateForFunctionPointer<glGenFramebuffersDelegate>(GetMethodAddress("glGenFramebuffers"));
-	public delegate void glGenFramebuffersDelegate(GLsizei n, GLuint* ids);
+	public delegate void glGenFramebuffersDelegate(GLsizei n, ref GLuint ids);
 
 	public static readonly glGenProgramPipelinesDelegate glGenProgramPipelines = Marshal.GetDelegateForFunctionPointer<glGenProgramPipelinesDelegate>(GetMethodAddress("glGenProgramPipelines"));
 	public delegate void glGenProgramPipelinesDelegate(GLsizei n, GLuint* pipelines);
@@ -663,13 +667,13 @@ public static unsafe class Methods
 	public delegate void glGenQueriesDelegate(GLsizei n, GLuint* ids);
 
 	public static readonly glGenRenderbuffersDelegate glGenRenderbuffers = Marshal.GetDelegateForFunctionPointer<glGenRenderbuffersDelegate>(GetMethodAddress("glGenRenderbuffers"));
-	public delegate void glGenRenderbuffersDelegate(GLsizei n, GLuint* renderbuffers);
+	public delegate void glGenRenderbuffersDelegate(GLsizei n, ref GLuint renderbuffers);
 
 	public static readonly glGenSamplersDelegate glGenSamplers = Marshal.GetDelegateForFunctionPointer<glGenSamplersDelegate>(GetMethodAddress("glGenSamplers"));
 	public delegate void glGenSamplersDelegate(GLsizei n, GLuint* samplers);
 
 	public static readonly glGenTexturesDelegate glGenTextures = Marshal.GetDelegateForFunctionPointer<glGenTexturesDelegate>(GetMethodAddress("glGenTextures"));
-	public delegate void glGenTexturesDelegate(GLsizei n, GLuint* textures);
+	public delegate void glGenTexturesDelegate(GLsizei n, ref GLuint textures);
 
 	public static readonly glGenTransformFeedbacksDelegate glGenTransformFeedbacks = Marshal.GetDelegateForFunctionPointer<glGenTransformFeedbacksDelegate>(GetMethodAddress("glGenTransformFeedbacks"));
 	public delegate void glGenTransformFeedbacksDelegate(GLsizei n, GLuint* ids);
@@ -1431,9 +1435,11 @@ public static unsafe class Methods
 	public static readonly glTextureBufferRangeDelegate glTextureBufferRange = Marshal.GetDelegateForFunctionPointer<glTextureBufferRangeDelegate>(GetMethodAddress("glTextureBufferRange"));
 	public delegate void glTextureBufferRangeDelegate(GLuint texture, GLenum internalformat, GLuint buffer, GLintptr offset, GLsizei size);
 
+	[DllImport(GL_LIB)] public static extern void glTexImage1D(GLenum target, GLint level, GLint internalFormat, GLsizei width, GLint border, GLenum format, GLenum type, nint data);
 	// public static readonly glTexImage1DDelegate glTexImage1D = Marshal.GetDelegateForFunctionPointer<glTexImage1DDelegate>(GetMethodAddress("glTexImage1D"));
 	// public delegate void glTexImage1DDelegate(GLenum target, GLint level, GLint internalFormat, GLsizei width, GLint border, GLenum format, GLenum type, nint data);
 
+	[DllImport(GL_LIB)] public static extern void glTexImage2D(GLenum target, GLint level, GLint internalFormat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, nint data);
 	// public static readonly glTexImage2DDelegate glTexImage2D = Marshal.GetDelegateForFunctionPointer<glTexImage2DDelegate>(GetMethodAddress("glTexImage2D"));
 	// public delegate void glTexImage2DDelegate(GLenum target, GLint level, GLint internalFormat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, nint data);
 
@@ -1446,9 +1452,11 @@ public static unsafe class Methods
 	public static readonly glTexImage3DMultisampleDelegate glTexImage3DMultisample = Marshal.GetDelegateForFunctionPointer<glTexImage3DMultisampleDelegate>(GetMethodAddress("glTexImage3DMultisample"));
 	public delegate void glTexImage3DMultisampleDelegate(GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLboolean fixedsamplelocations);
 
+	[DllImport(GL_LIB)] public static extern void glTexParameterf(GLenum target, GLenum pname, GLfloat parameter);
 	// public static readonly glTexParameterfDelegate glTexParameterf = Marshal.GetDelegateForFunctionPointer<glTexParameterfDelegate>(GetMethodAddress("glTexParameterf"));
 	// public delegate void glTexParameterfDelegate(GLenum target, GLenum pname, GLfloat parameter);
 
+	[DllImport(GL_LIB)] public static extern void glTexParameteri(GLenum target, GLenum pname, GLint parameter);
 	// public static readonly glTexParameteriDelegate glTexParameteri = Marshal.GetDelegateForFunctionPointer<glTexParameteriDelegate>(GetMethodAddress("glTexParameteri"));
 	// public delegate void glTexParameteriDelegate(GLenum target, GLenum pname, GLint parameter);
 
@@ -1458,9 +1466,11 @@ public static unsafe class Methods
 	public static readonly glTextureParameteriDelegate glTextureParameteri = Marshal.GetDelegateForFunctionPointer<glTextureParameteriDelegate>(GetMethodAddress("glTextureParameteri"));
 	public delegate void glTextureParameteriDelegate(GLuint texture, GLenum pname, GLint parameter);
 
+	[DllImport(GL_LIB)] public static extern void glTexParameterfv(GLenum target, GLenum pname, ref GLfloat parameters);
 	// public static readonly glTexParameterfvDelegate glTexParameterfv = Marshal.GetDelegateForFunctionPointer<glTexParameterfvDelegate>(GetMethodAddress("glTexParameterfv"));
 	// public delegate void glTexParameterfvDelegate(GLenum target, GLenum pname, GLfloat* parameters);
 
+	[DllImport(GL_LIB)] public static extern void glTexParameteriv(GLenum target, GLenum pname, ref GLint parameters);
 	// public static readonly glTexParameterivDelegate glTexParameteriv = Marshal.GetDelegateForFunctionPointer<glTexParameterivDelegate>(GetMethodAddress("glTexParameteriv"));
 	// public delegate void glTexParameterivDelegate(GLenum target, GLenum pname, GLint* parameters);
 
