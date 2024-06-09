@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 using static OpenGL.Methods;
 using static OpenGL.Constants;
 
@@ -5,9 +9,16 @@ namespace OpenGL;
 
 public class SceneObject 
 {
-	public Matrix4x4 Transform;
-	public Material Material;
-	public Mesh Mesh;
+	private List<Component> components = new();
 
-	public SceneObject(Matrix4x4 transform, Material material, Mesh mesh) => (this.Transform, this.Material, this.Mesh) = (transform, material, mesh); 
+	public void AddComponent<T>(T component) where T : Component => components.Add(component);
+	public T GetComponent<T>() where T : Component => (T)components.Where(x => x is T).Single();
+	public bool TryGetComponent<T>(out T component) where T : Component
+	{
+		component = ((T?)components.Where(x => x is T).SingleOrDefault())!;
+		return component == null;
+	}
+
+	public SceneObject(params Component[] components) : this((IEnumerable<Component>)components) {}
+	public SceneObject(IEnumerable<Component> components) => this.components.AddRange(components);
 }

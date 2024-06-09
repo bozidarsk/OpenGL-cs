@@ -36,15 +36,19 @@ public sealed class Camera : IDisposable
 
 		foreach (SceneObject obj in objects) 
 		{
-			obj.Material.Use();
-			obj.Material["LOCAL_TO_WORLD"] = obj.Transform;
-			obj.Material["PROJECTION"] = this.Projection * this.Transform;
+			Transform transform = obj.GetComponent<Transform>();
+			MeshRenderer renderer = obj.GetComponent<MeshRenderer>();
+			MeshFilter filter = obj.GetComponent<MeshFilter>();
 
-			obj.Mesh.BindVertexBuffer();
-			obj.Mesh.BindIndexBuffer();
-			obj.Mesh.EnableVertexAttributes();
-			glDrawElements(GL_TRIANGLES, obj.Mesh.IndexCount, GL_UNSIGNED_INT, nint.Zero);
-			obj.Mesh.DisableVertexAttributes();
+			renderer.Material.Use();
+			renderer.Material["LOCAL_TO_WORLD"] = transform.Matrix;
+			renderer.Material["PROJECTION"] = this.Projection * this.Transform;
+
+			filter.Mesh.BindVertexBuffer();
+			filter.Mesh.BindIndexBuffer();
+			filter.Mesh.EnableVertexAttributes();
+			glDrawElements(GL_TRIANGLES, filter.Mesh.IndexCount, GL_UNSIGNED_INT, nint.Zero);
+			filter.Mesh.DisableVertexAttributes();
 		}
 	}
 
