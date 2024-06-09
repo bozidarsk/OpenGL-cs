@@ -21,12 +21,6 @@ public class Framebuffer : IDisposable
 		glDeleteFramebuffers(1, ref obj);
 	}
 
-	private static uint CreateAttachment(int width, int height, uint format) 
-	{
-		uint id = new Texture(width, height);
-		return id;
-	}
-
 	public override string ToString() => $"{this.GetType()} {id}";
 	public static implicit operator uint(Framebuffer x) => x.id;
 
