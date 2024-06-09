@@ -11,8 +11,8 @@ public struct Vector4
 	public readonly float Length => (float)Math.Sqrt(x*x + y*y + z*z + w*w);
 	public readonly Vector4 Normalized => this / this.Length;
 
-	public static readonly Vector4 Zero = new Vector4(0f, 0f, 0f, 0f);
-	public static readonly Vector4 One = new Vector4(1f, 1f, 1f, 1f);
+	public static readonly Vector4 Zero = new Vector4(0, 0, 0, 0);
+	public static readonly Vector4 One = new Vector4(1, 1, 1, 1);
 
 	public static Vector4 operator * (Vector4 a, float x) => new Vector4(a.x * x, a.y * x, a.z * x, a.w * x);
 	public static Vector4 operator / (Vector4 a, float x) => new Vector4(a.x / x, a.y / x, a.z / x, a.w / x);
@@ -36,14 +36,14 @@ public struct Vector3
 	public readonly float Length => (float)Math.Sqrt(x*x + y*y + z*z);
 	public readonly Vector3 Normalized => this / this.Length;
 
-	public static readonly Vector3 Zero = new Vector3(0f, 0f, 0f);
-	public static readonly Vector3 One = new Vector3(1f, 1f, 1f);
-	public static readonly Vector3 Left = new Vector3(-1f, 0f, 0f);
-	public static readonly Vector3 Right = new Vector3(1f, 0f, 0f);
-	public static readonly Vector3 Down = new Vector3(0f, -1f, 0f);
-	public static readonly Vector3 Up = new Vector3(0f, 1f, 0f);
-	public static readonly Vector3 Forward = new Vector3(0f, 0f, 1f);
-	public static readonly Vector3 Back = new Vector3(0f, 0f, -1f);
+	public static readonly Vector3 Zero = new Vector3(0, 0, 0);
+	public static readonly Vector3 One = new Vector3(1, 1, 1);
+	public static readonly Vector3 Left = new Vector3(-1, 0, 0);
+	public static readonly Vector3 Right = new Vector3(1, 0, 0);
+	public static readonly Vector3 Down = new Vector3(0, -1, 0);
+	public static readonly Vector3 Up = new Vector3(0, 1, 0);
+	public static readonly Vector3 Forward = new Vector3(0, 0, 1);
+	public static readonly Vector3 Back = new Vector3(0, 0, -1);
 
 	public static Vector3 operator * (Vector3 a, float x) => new Vector3(a.x * x, a.y * x, a.z * x);
 	public static Vector3 operator / (Vector3 a, float x) => new Vector3(a.x / x, a.y / x, a.z / x);
@@ -68,12 +68,12 @@ public struct Vector2
 	public readonly float Length => (float)Math.Sqrt(x*x + y*y);
 	public readonly Vector2 Normalized => this / this.Length;
 
-	public static readonly Vector2 Zero = new Vector2(0f, 0f);
-	public static readonly Vector2 One = new Vector2(1f, 1f);
-	public static readonly Vector2 Left = new Vector2(-1f, 0f);
-	public static readonly Vector2 Right = new Vector2(1f, 0f);
-	public static readonly Vector2 Down = new Vector2(0f, -1f);
-	public static readonly Vector2 Up = new Vector2(0f, 1f);
+	public static readonly Vector2 Zero = new Vector2(0, 0);
+	public static readonly Vector2 One = new Vector2(1, 1);
+	public static readonly Vector2 Left = new Vector2(-1, 0);
+	public static readonly Vector2 Right = new Vector2(1, 0);
+	public static readonly Vector2 Down = new Vector2(0, -1);
+	public static readonly Vector2 Up = new Vector2(0, 1);
 
 	public static Vector2 operator * (Vector2 a, float x) => new Vector2(a.x * x, a.y * x);
 	public static Vector2 operator / (Vector2 a, float x) => new Vector2(a.x / x, a.y / x);
@@ -83,7 +83,7 @@ public struct Vector2
 	public static Vector2 operator - (Vector2 a, Vector2 b) => new Vector2(a.x - b.x, a.y - b.y);
 
 	public static float Dot(Vector2 a, Vector2 b) => a.x*b.x + a.y*b.y;
-	public static Vector3 Cross(Vector2 a, Vector2 b) => new Vector3(0f, 0f, a.x*b.y - a.y*b.x);
+	public static Vector3 Cross(Vector2 a, Vector2 b) => new Vector3(0, 0, a.x*b.y - a.y*b.x);
 
 	public override string ToString() => $"({x:f6}, {y:f6})";
 

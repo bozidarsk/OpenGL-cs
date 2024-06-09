@@ -16,7 +16,7 @@ public struct Matrix4x4
 	public readonly Vector4 z => new Vector4(zx, zy, zz, zw);
 	public readonly Vector4 t => new Vector4(tx, ty, tz, tw);
 
-	public readonly float Determinand => 0f
+	public readonly float Determinand => 0
 		+ (xx*yy - yx*xy) * (zz*tw - tz*zw)
 		- (xx*zy - zx*xy) * (yz*tw - tz*yw)
 		+ (xx*ty - tx*xy) * (yz*zw - zz*yw)
@@ -34,18 +34,18 @@ public struct Matrix4x4
 
 	public static readonly Matrix4x4 Identity = new Matrix4x4() 
 	{
-		xx = 1f, yx = 0f, zx = 0f, tx = 0f,
-		xy = 0f, yy = 1f, zy = 0f, ty = 0f,
-		xz = 0f, yz = 0f, zz = 1f, tz = 0f,
-		xw = 0f, yw = 0f, zw = 0f, tw = 1f,
+		xx = 1, yx = 0, zx = 0, tx = 0,
+		xy = 0, yy = 1, zy = 0, ty = 0,
+		xz = 0, yz = 0, zz = 1, tz = 0,
+		xw = 0, yw = 0, zw = 0, tw = 1,
 	};
 
 	public static readonly Matrix4x4 Zero = new Matrix4x4() 
 	{
-		xx = 0f, yx = 0f, zx = 0f, tx = 0f,
-		xy = 0f, yy = 0f, zy = 0f, ty = 0f,
-		xz = 0f, yz = 0f, zz = 0f, tz = 0f,
-		xw = 0f, yw = 0f, zw = 0f, tw = 0f,
+		xx = 0, yx = 0, zx = 0, tx = 0,
+		xy = 0, yy = 0, zy = 0, ty = 0,
+		xz = 0, yz = 0, zz = 0, tz = 0,
+		xw = 0, yw = 0, zw = 0, tw = 0,
 	};
 
 	public static Matrix4x4 operator * (Matrix4x4 l, Matrix4x4 r) => new Matrix4x4(
@@ -61,15 +61,15 @@ public struct Matrix4x4
 
 	public static Matrix4x4 Perspective(float fov, float ratio, float near, float far) 
 	{
-		fov *= (float)Math.PI / 180f;
-		float tan = (float)Math.Tan(fov / 2f);
+		fov *= (float)Math.PI / 180;
+		float tan = (float)Math.Tan(fov / 2);
 
 		return new Matrix4x4() 
 		{
-			xx = 1f / (ratio * tan), yx = 0f,       zx = 0f,                                tx = 0f,
-			xy = 0f,                 yy = 1f / tan, zy = 0f,                                ty = 0f,
-			xz = 0f,                 yz = 0f,       zz = -(near + far) / (far - near),      tz = -1f,
-			xw = 0f,                 yw = 0f,       zw = -(2f * near * far) / (far - near), tw = 0f,
+			xx = 1 / (ratio * tan), yx = 0,       zx = 0,                                tx = 0,
+			xy = 0,                 yy = 1 / tan, zy = 0,                                ty = 0,
+			xz = 0,                 yz = 0,       zz = -(near + far) / (far - near),      tz = -1,
+			xw = 0,                 yw = 0,       zw = -(2 * near * far) / (far - near), tw = 0,
 		};
 	}
 	
@@ -77,10 +77,10 @@ public struct Matrix4x4
 	{
 		return new Matrix4x4() 
 		{
-			xx = 2f / (right - left), yx = 0f,                  zx = 0f,                 tx = -(right + left) / (right - left),
-			xy = 0f,                  yy = 2f / (top - bottom), zy = 0f,                 ty = -(top + bottom) / (top - bottom),
-			xz = 0f,                  yz = 0f,                  zz = -2f / (far - near), tz = -(far + near) / (far - near),
-			xw = 0f,                  yw = 0f,                  zw = 0f,                 tw = 1f,
+			xx = 2 / (right - left), yx = 0,                  zx = 0,                 tx = -(right + left) / (right - left),
+			xy = 0,                  yy = 2 / (top - bottom), zy = 0,                 ty = -(top + bottom) / (top - bottom),
+			xz = 0,                  yz = 0,                  zz = -2 / (far - near), tz = -(far + near) / (far - near),
+			xw = 0,                  yw = 0,                  zw = 0,                 tw = 1,
 		};
 	}
 
@@ -91,9 +91,9 @@ public struct Matrix4x4
 		// from https://github.com/Unity-Technologies/UnityCsReference/blob/master/Runtime/Export/Math/Matrix4x4.cs#L370
 
 		// Precalculate coordinate products
-		float x = q.x * 2f;
-		float y = q.y * 2f;
-		float z = q.z * 2f;
+		float x = q.x * 2;
+		float y = q.y * 2;
+		float z = q.z * 2;
 		float xx = q.x * x;
 		float yy = q.y * y;
 		float zz = q.z * z;
@@ -106,10 +106,10 @@ public struct Matrix4x4
 
 		// Calculate 3x3 matrix from orthonormal basis
 		Matrix4x4 m;
-		m.xx = 1.0f - (yy + zz); m.yx = xy + wz; m.zx = xz - wy; m.tx = 0.0f;
-		m.xy = xy - wz; m.yy = 1.0f - (xx + zz); m.zy = yz + wx; m.ty = 0.0f;
-		m.xz = xz + wy; m.yz = yz - wx; m.zz = 1.0f - (xx + yy); m.tz = 0.0f;
-		m.xw = 0.0f; m.yw = 0.0f; m.zw = 0.0f; m.tw = 1.0f;
+		m.xx = 1 - (yy + zz); m.yx = xy + wz; m.zx = xz - wy; m.tx = 0;
+		m.xy = xy - wz; m.yy = 1 - (xx + zz); m.zy = yz + wx; m.ty = 0;
+		m.xz = xz + wy; m.yz = yz - wx; m.zz = 1 - (xx + yy); m.tz = 0;
+		m.xw = 0; m.yw = 0; m.zw = 0; m.tw = 1;
 		return m;
 	}
 
