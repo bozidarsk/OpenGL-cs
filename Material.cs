@@ -10,6 +10,8 @@ namespace OpenGL;
 
 public sealed class Material : IDisposable
 {
+	public Dictionary<string, string[]> Properties { get; } = new();
+
 	private readonly uint id;
 
 	public void Use() => glUseProgram(this);
@@ -71,8 +73,20 @@ public sealed class Material : IDisposable
 
 		id = glCreateProgram();
 
-		foreach (Shader shader in shaders)
+		foreach (Shader shader in shaders) 
+		{
+			foreach (string[] property in shader.Properties) 
+			{
+				(string p, string[] a) = (property[0], property.Skip(1).ToArray());
+
+				if (this.Properties.ContainsKey(p))
+					this.Properties.Remove(p);
+
+				this.Properties.Add(p, a);
+			}
+
 			glAttachShader(this, shader);
+		}
 
 		glLinkProgram(this);
 		glValidateProgram(this);

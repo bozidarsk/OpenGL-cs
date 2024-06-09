@@ -19,9 +19,6 @@ public sealed class Camera : IDisposable
 	public void Render(params SceneObject[] objects) => Render((IEnumerable<SceneObject>)objects);
 	public void Render(IEnumerable<SceneObject> objects) 
 	{
-		glFrontFace(GL_CCW);
-		glEnable(GL_CULL_FACE);
-
 		if (this != MainCamera) 
 		{
 			Target.Bind();
@@ -40,9 +37,74 @@ public sealed class Camera : IDisposable
 			MeshRenderer renderer = obj.GetComponent<MeshRenderer>();
 			MeshFilter filter = obj.GetComponent<MeshFilter>();
 
+			if (renderer.Material.Properties.TryGetValue("cull", out string[]? cullp))
+				switch (cullp[0]) 
+				{
+					case "back":
+						glFrontFace(GL_CCW);
+						glEnable(GL_CULL_FACE);
+						break;
+					case "front":
+						glFrontFace(GL_CW);
+						glEnable(GL_CULL_FACE);
+						break;
+					case "off":
+						glDisable(GL_CULL_FACE);
+						break;
+				}
+			else 
+			{
+				glFrontFace(GL_CCW);
+				glEnable(GL_CULL_FACE);
+			}
+
+			if (renderer.Material.Properties.TryGetValue("blend", out string[]? blendp)) 
+				glBlendFunc(
+					blendp[0] switch 
+					{
+						"zero" => GL_ZERO,
+						"one" => GL_ONE,
+						"srccolor" => GL_SRC_COLOR,
+						"oneminussrccolor" => GL_ONE_MINUS_SRC_COLOR,
+						"dstcolor" => GL_DST_COLOR,
+						"oneminusdstcolor" => GL_ONE_MINUS_DST_COLOR,
+						"srcalpha" => GL_SRC_ALPHA,
+						"oneminussrcalpha" => GL_ONE_MINUS_SRC_ALPHA,
+						"dstalpha" => GL_DST_ALPHA,
+						"oneminusdstalpha" => GL_ONE_MINUS_DST_ALPHA,
+						"constantcolor" => GL_CONSTANT_COLOR,
+						"oneminusconstantcolor" => GL_ONE_MINUS_CONSTANT_COLOR,
+						"constantalpha" => GL_CONSTANT_ALPHA,
+						"oneminusconstantalpha" => GL_ONE_MINUS_CONSTANT_ALPHA,
+
+						_ => throw new InvalidOperationException()
+					},
+					blendp[1] switch 
+					{
+						"zero" => GL_ZERO,
+						"one" => GL_ONE,
+						"srccolor" => GL_SRC_COLOR,
+						"oneminussrccolor" => GL_ONE_MINUS_SRC_COLOR,
+						"dstcolor" => GL_DST_COLOR,
+						"oneminusdstcolor" => GL_ONE_MINUS_DST_COLOR,
+						"srcalpha" => GL_SRC_ALPHA,
+						"oneminussrcalpha" => GL_ONE_MINUS_SRC_ALPHA,
+						"dstalpha" => GL_DST_ALPHA,
+						"oneminusdstalpha" => GL_ONE_MINUS_DST_ALPHA,
+						"constantcolor" => GL_CONSTANT_COLOR,
+						"oneminusconstantcolor" => GL_ONE_MINUS_CONSTANT_COLOR,
+						"constantalpha" => GL_CONSTANT_ALPHA,
+						"oneminusconstantalpha" => GL_ONE_MINUS_CONSTANT_ALPHA,
+
+						_ => throw new InvalidOperationException()
+					}
+				);
+			else
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 			renderer.Material.Use();
-			renderer.Material["LOCAL_TO_WORLD"] = transform.Matrix;
-			renderer.Material["PROJECTION"] = this.Projection * this.Transform;
+			renderer.Material["LOCAL_TO_WORLD_M"] = transform.Matrix;
+			renderer.Material["PROJECTION_M"] = this.Projection * this.Transform;
 
 			filter.Mesh.BindVertexBuffer();
 			filter.Mesh.BindIndexBuffer();

@@ -217,6 +217,7 @@ public static unsafe class Methods
 	public static readonly glBlendEquationSeparateiDelegate glBlendEquationSeparatei = Marshal.GetDelegateForFunctionPointer<glBlendEquationSeparateiDelegate>(GetMethodAddress("glBlendEquationSeparatei"));
 	public delegate void glBlendEquationSeparateiDelegate(GLuint buf, GLenum modeRGB, GLenum modeAlpha);
 
+	[DllImport(GL_LIB)] public static extern void glBlendFunc(GLenum sfactor, GLenum dfactor);
 	// public static readonly glBlendFuncDelegate glBlendFunc = Marshal.GetDelegateForFunctionPointer<glBlendFuncDelegate>(GetMethodAddress("glBlendFunc"));
 	// public delegate void glBlendFuncDelegate(GLenum sfactor, GLenum dfactor);
 

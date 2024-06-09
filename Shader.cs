@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Linq;
+using System.Text;
 using System.IO;
 
 using static OpenGL.Methods;
@@ -13,74 +15,32 @@ public sealed class Shader : IDisposable
 	public ShaderType Type { get; }
 	public string? FileName { get; }
 
+	internal List<string[]> Properties { get; }
+
 	private const string defaultVertex = @"
-		#version 440 core
-
-		struct Vertex 
-		{
-			vec3 position;
-			vec3 normal;
-			vec2 uv;
-		};
-
-		struct v2f 
-		{
-			vec3 worldPosition;
-			vec2 screenPosition;
-			vec3 normal;
-			vec2 uv;
-		};
-
-		uniform mat4x4 LOCAL_TO_WORLD;
-		uniform mat4x4 PROJECTION;
-
-
-
-
+		#include <common.h>
 
 		layout(location = 0) in Vertex v;
 		layout(location = 0) out v2f o;
 
 		void main() 
 		{
-			vec4 wp = LOCAL_TO_WORLD * vec4(v.position.xyz, 1);
-			vec4 sp = PROJECTION * wp;
+			vec4 wp = LOCAL_TO_WORLD_M * vec4(v.position.xyz, 1);
+			vec4 sp = PROJECTION_M * wp;
 
 			o.worldPosition = wp.xyz;
 			o.screenPosition = sp.xy;
-			o.normal = (LOCAL_TO_WORLD * vec4(v.normal.xyz, 0)).xyz;
+			o.normal = (LOCAL_TO_WORLD_M * vec4(v.normal.xyz, 0)).xyz;
 			o.uv = v.uv;
 
 			gl_Position = sp;
 		}
 	";
 	private const string defaultFragment = @"
-		#version 440 core
+		#include <common.h>
 
-		struct Vertex 
-		{
-			vec3 position;
-			vec3 normal;
-			vec2 uv;
-		};
-
-		struct v2f 
-		{
-			vec3 worldPosition;
-			vec2 screenPosition;
-			vec3 normal;
-			vec2 uv;
-		};
-
-		uniform mat4x4 LOCAL_TO_WORLD;
-		uniform mat4x4 PROJECTION;
-
-
-
-
-
-		layout(location = 0) out vec4 color;
 		layout(location = 0) in v2f f;
+		layout(location = 0) out vec4 color;
 
 		void main() 
 		{
@@ -103,10 +63,52 @@ public sealed class Shader : IDisposable
 			".frag" => ShaderType.Fragment,
 			".geom" => ShaderType.Geometry,
 			".comp" => ShaderType.Compute,
-			_ => throw new FileFormatException(),
+
+			_ => throw new FileFormatException()
 		},
 		file
 	);
+
+	private static string ParseShader(string code, out List<string[]> properties) 
+	{
+		StringBuilder output = new();
+		bool requiresRecursion = false;
+
+		properties = new();
+
+		foreach (string line in code
+			.Split('\r', '\n')
+			.Where(x => !string.IsNullOrWhiteSpace(x))
+		)
+		{
+			string l = line.TrimStart();
+
+			if (l.StartsWith("#pragma "))
+				properties.Add(l.Split().Where(x => !string.IsNullOrWhiteSpace(x)).Skip(1).ToArray());
+			else if (l.StartsWith("#include")) 
+			{
+				// TODO: check if it is in a comment
+
+				string path = l.Remove(0, "#include".Length).Trim();
+				path = path.Substring(1, path.Length - 2);
+				requiresRecursion = true;
+
+				foreach (string x in File.ReadAllLines(path))
+					output.AppendLine(x);
+			}
+			else
+				output.AppendLine(l);
+		}
+
+		if (requiresRecursion) 
+		{
+			string o = ParseShader(output.ToString(), out var p);
+			properties.AddRange(p);
+			return o;
+		}
+
+		return output.ToString();
+	}
 
 	public unsafe Shader(string? code, ShaderType type, string? fileName = null) 
 	{
@@ -117,8 +119,13 @@ public sealed class Shader : IDisposable
 		{
 			ShaderType.Vertex => defaultVertex,
 			ShaderType.Fragment => defaultFragment,
-			_ => throw new NullReferenceException($"Default shader not found for 'ShaderType.{type}'."),
+
+			_ => throw new NullReferenceException($"Default shader not found for 'ShaderType.{type}'.")
 		};
+
+		code = ParseShader(code, out List<string[]> properties);
+		properties.Reverse();
+		this.Properties = properties;
 
 		id = glCreateShader((uint)type);
 
