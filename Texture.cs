@@ -5,7 +5,7 @@ using static OpenGL.Constants;
 
 namespace OpenGL;
 
-public sealed class Texture : IDisposable
+public class Texture : IDisposable
 {
 	public int Width { get; }
 	public int Height { get; }
@@ -30,6 +30,22 @@ public sealed class Texture : IDisposable
 
 	public override string ToString() => $"{this.GetType()} {id}";
 	public static implicit operator uint(Texture x) => x.id;
+
+	public Texture(int width, int height, TextureType type) 
+	{
+		this.Width = width;
+		this.Height = height;
+		this.Type = type;
+		this.Data = 0;
+
+		glGenTextures(1, ref id);
+		Bind();
+
+		glTexParameteri((uint)type, GL_TEXTURE_MIN_FILTER, (int)GL_LINEAR);
+		glTexParameteri((uint)type, GL_TEXTURE_MAG_FILTER, (int)GL_LINEAR);
+		glTexParameteri((uint)type, GL_TEXTURE_WRAP_S, (int)GL_CLAMP);
+		glTexParameteri((uint)type, GL_TEXTURE_WRAP_T, (int)GL_CLAMP);
+	}
 
 	public Texture(
 		int width,

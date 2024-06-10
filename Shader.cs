@@ -141,7 +141,7 @@ public sealed class Shader : IDisposable
 			sbyte* message = stackalloc sbyte[length];
 			glGetShaderInfoLog(this, length, out length, ref Unsafe.AsRef<sbyte>(message));
 
-			Console.WriteLine($"Shader compilation error in '{fileName}' {new string(message)}");
+			throw new GLException($"Shader compilation error in '{fileName}' {new string(message)}");
 		}
 	}
 }

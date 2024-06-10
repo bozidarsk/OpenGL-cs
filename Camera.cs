@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using static OpenGL.Methods;
 using static OpenGL.Constants;
@@ -8,28 +9,63 @@ namespace OpenGL;
 
 public sealed class Camera : IDisposable
 {
-	public Matrix4x4 Transform;
-	public Matrix4x4 Projection;
-	public Framebuffer Target = new Framebuffer(1920, 1080, FramebufferAttachment.Color);
+	public Matrix4x4 Transform { set; get; }
+	public Matrix4x4 Projection { set; get; }
+	public bool UseWindow { set; get; }
+	public Framebuffer Frame { get; } = new Framebuffer(1280, 720, FramebufferAttachment.Color);
 
-	public void Dispose() => this.Target.Dispose();
+	public void Dispose() => this.Frame.Dispose();
 
-	public static Camera MainCamera = new Camera(Matrix4x4.Identity, Matrix4x4.Perspective(60, 16 / 9, -1, 1));
+	private static readonly Mesh quad = new(
+		new Vertex[] { new(new(0, 0, 0), Vector3.Forward, new(0, 0)), new(new(1280, 0, 0), Vector3.Forward, new(1, 0)), new(new(1280, 720, 0), Vector3.Forward, new(1, 1)), new(new(0, 720, 0), Vector3.Forward, new(0, 1)) },
+		new uint[] { 0, 1, 2, 2, 3, 0 }
+	);
+
+	private static readonly Material textureRenderer = new(
+		new(null, ShaderType.Vertex),
+		new(@"
+			#include <common.h>
+
+			layout(location = 0) in v2f f;
+			layout(location = 0) out vec4 color;
+
+			uniform sampler2D COLOR_T;
+
+			void main() 
+			{
+				color = texture(COLOR_T, f.uv);
+			}
+		", ShaderType.Fragment)
+	);
+
+	private void RenderToWindow() 
+	{
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glFrontFace(GL_CCW);
+		glEnable(GL_CULL_FACE);
+
+		textureRenderer.Use();
+		textureRenderer["LOCAL_TO_WORLD_M"] = Matrix4x4.Identity;
+		textureRenderer["PROJECTION_M"] = Matrix4x4.Ortho(0, this.Frame.Width, 0, this.Frame.Height, -1, 1);
+		textureRenderer["COLOR_T"] = this.Frame.Textures.Where(x => x.Attachment == FramebufferAttachment.Color).Single();
+		// textureRenderer["DEPTH_T"] = this.Frame.Textures.Where(x => x.Attachment == FramebufferAttachment.Depth).Single();
+
+		quad.BindVertexBuffer();
+		quad.BindIndexBuffer();
+		quad.EnableVertexAttributes();
+		glDrawElements(GL_TRIANGLES, quad.IndexCount, GL_UNSIGNED_INT, nint.Zero);
+		quad.DisableVertexAttributes();
+	}
 
 	public void Render(params SceneObject[] objects) => Render((IEnumerable<SceneObject>)objects);
 	public void Render(IEnumerable<SceneObject> objects) 
 	{
-		if (this != MainCamera) 
-		{
-			Target.Bind();
-			glDrawBuffer((uint)Target.Attachment);
-		}
-		else 
-		{
-			glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		}
+		this.Frame.Bind();
+		// glDrawBuffer((uint)this.Frame.Textures.Where(x => x.Attachment == FramebufferAttachment.Color).Single().Attachment);
 
-		glClear(GL_COLOR_BUFFER_BIT /*| GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT*/);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
 		foreach (SceneObject obj in objects) 
 		{
@@ -112,7 +148,12 @@ public sealed class Camera : IDisposable
 			glDrawElements(GL_TRIANGLES, filter.Mesh.IndexCount, GL_UNSIGNED_INT, nint.Zero);
 			filter.Mesh.DisableVertexAttributes();
 		}
+
+		if (this.UseWindow)
+			RenderToWindow();
 	}
 
-	public Camera(Matrix4x4 transform, Matrix4x4 projection) => (this.Transform, this.Projection) = (transform, projection);
+	public Camera(Matrix4x4 transform, Matrix4x4 projection, bool useWindow) => 
+		(this.Transform, this.Projection, this.UseWindow) = (transform, projection, useWindow)
+	;
 }
