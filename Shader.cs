@@ -14,8 +14,9 @@ public sealed class Shader : IDisposable
 {
 	public ShaderType Type { get; }
 	public string? FileName { get; }
+	internal IReadOnlyList<string[]> Properties => properties;
 
-	internal List<string[]> Properties { get; }
+	private List<string[]> properties = new();
 
 	private const string defaultVertex = @"
 		#include <common.h>
@@ -123,9 +124,8 @@ public sealed class Shader : IDisposable
 			_ => throw new NullReferenceException($"Default shader not found for 'ShaderType.{type}'.")
 		};
 
-		code = ParseShader(code, out List<string[]> properties);
+		code = ParseShader(code, out properties);
 		properties.Reverse();
-		this.Properties = properties;
 
 		id = glCreateShader((uint)type);
 

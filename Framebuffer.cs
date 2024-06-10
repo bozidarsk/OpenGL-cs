@@ -38,7 +38,9 @@ public class Framebuffer : IDisposable
 {
 	public int Width { get; }
 	public int Height { get; }
-	public List<RenderTexture> Textures { get; } = new();
+	public IReadOnlyList<RenderTexture> Textures => textures;
+
+	private List<RenderTexture> textures = new();
 
 	private readonly uint id;
 
@@ -63,7 +65,7 @@ public class Framebuffer : IDisposable
 		foreach (FramebufferAttachment x in attachments) 
 		{
 			RenderTexture texture = new RenderTexture(width, height, x);
-			this.Textures.Add(texture);
+			textures.Add(texture);
 
 			glFramebufferTexture2D(
 				GL_FRAMEBUFFER,
